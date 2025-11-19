@@ -55,54 +55,22 @@ export default function PortfolioGallery() {
   // Lightweight container fade to avoid reflow-heavy animations
   const containerVariants = {
     hidden: { opacity: 0 },
-    visible: { opacity: 1 }
+    visible: { 
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.05
+      }
+    }
   };
 
-  // A set of varied entrance animations to keep the grid lively
-  const cardVariants = [
-    {
-      hidden: { opacity: 0, y: 40, scale: 0.95 },
-      visible: {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        transition: { duration: 0.6, ease: [0.43, 0.13, 0.23, 0.96] }
-      }
-    },
-    {
-      hidden: { opacity: 0, y: -30 },
-      visible: {
-        opacity: 1,
-        y: 0,
-        transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
-      }
-    },
-    {
-      hidden: { opacity: 0, x: 35 },
-      visible: {
-        opacity: 1,
-        x: 0,
-        transition: { duration: 0.6, ease: [0.34, 1.56, 0.64, 1] }
-      }
-    },
-    {
-      hidden: { opacity: 0, x: -35 },
-      visible: {
-        opacity: 1,
-        x: 0,
-        transition: { duration: 0.6, ease: [0.34, 1.56, 0.64, 1] }
-      }
-    },
-    {
-      hidden: { opacity: 0, scale: 0.9, rotate: 2 },
-      visible: {
-        opacity: 1,
-        scale: 1,
-        rotate: 0,
-        transition: { duration: 0.65, ease: [0.2, 0.8, 0.2, 1] }
-      }
-    },
-  ] as const;
+  // Simplified card animation - no transform/scale to prevent layout shifts
+  const cardVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { duration: 0.4 }
+    }
+  };
 
   const filterVariants = {
     inactive: { scale: 1 },
@@ -171,38 +139,32 @@ export default function PortfolioGallery() {
 
           {/* Masonry Gallery Grid */}
           <motion.div 
-            key={activeFilter}
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="columns-1 sm:columns-2 lg:columns-3 gap-4 sm:gap-6 space-y-4 sm:space-y-6"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"
           >
               {filteredArtworks.map((artwork, index) => (
                 <motion.div
                   key={artwork.id}
-                  variants={cardVariants[index % cardVariants.length]}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true, amount: 0.25, margin: '0px 0px -15% 0px' }}
+                  variants={cardVariants}
                   whileHover={{ y: -4 }}
-                  whileTap={{ scale: 0.98 }}
-                  style={{ willChange: 'transform' }}
-                  className="break-inside-avoid group cursor-pointer transition-all duration-500 opacity-100"
+                  transition={{ duration: 0.3 }}
+                  className="group cursor-pointer"
                   onMouseEnter={() => setHoveredId(artwork.id)}
                   onMouseLeave={() => setHoveredId(null)}
                   onClick={() => handleViewDetails(artwork)}
                 >
-                  <div className="relative overflow-hidden rounded-xl shadow-md hover:shadow-2xl transition-all duration-500 bg-card min-h-[260px]">
+                  <div className="relative overflow-hidden rounded-xl shadow-md hover:shadow-2xl transition-shadow duration-300 bg-card">
                     {/* Image Container */}
-                    <div className="relative aspect-auto overflow-hidden">
+                    <div className="relative aspect-[3/4] overflow-hidden">
                       <Image
                         src={artwork.imageUrl ?? ''}
                         alt={language === 'es' ? (artwork.titleEs ?? artwork.title) : artwork.title}
-                        width={600}
-                        height={800}
+                        fill
                         className={`
-                          w-full h-auto object-cover transition-all duration-700 transform-gpu will-change-transform
-                          ${hoveredId === artwork.id ? 'scale-110 brightness-75' : 'scale-100'}
+                          object-cover transition-all duration-500
+                          ${hoveredId === artwork.id ? 'scale-105 brightness-75' : 'scale-100'}
                         `}
                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                         priority={index < 6}
