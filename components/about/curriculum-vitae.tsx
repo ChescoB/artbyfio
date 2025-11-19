@@ -316,32 +316,34 @@ export default function CurriculumVitae() {
           transition={{ duration: 0.8, delay: 0.2 }}
         >
           <Tabs defaultValue="murals" className="w-full">
-            <TabsList className="grid w-full grid-cols-3 mb-8 bg-muted/50 backdrop-blur-sm p-1 rounded-xl">
-              <TabsTrigger 
-                value="murals" 
-                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-[hsl(var(--art-teal))] data-[state=active]:to-[hsl(var(--art-coral))] data-[state=active]:text-white rounded-lg"
-              >
-                <span className="text-sm md:text-base font-semibold">
-                  {language === 'es' ? 'Murales' : 'Murals'}
-                </span>
-              </TabsTrigger>
-              <TabsTrigger 
-                value="solo" 
-                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-[hsl(var(--art-teal))] data-[state=active]:to-[hsl(var(--art-coral))] data-[state=active]:text-white rounded-lg"
-              >
-                <span className="text-sm md:text-base font-semibold">
-                  {language === 'es' ? 'Exhibiciones Solo' : 'Solo Exhibitions'}
-                </span>
-              </TabsTrigger>
-              <TabsTrigger 
-                value="group" 
-                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-[hsl(var(--art-teal))] data-[state=active]:to-[hsl(var(--art-coral))] data-[state=active]:text-white rounded-lg"
-              >
-                <span className="text-sm md:text-base font-semibold">
-                  {language === 'es' ? 'Exhibiciones Grupales' : 'Group Exhibitions'}
-                </span>
-              </TabsTrigger>
-            </TabsList>
+            <div className="overflow-x-auto mb-8 -mx-4 px-4 sm:mx-0 sm:px-0">
+              <TabsList className="inline-flex sm:grid w-auto sm:w-full grid-cols-3 gap-2 bg-muted/50 backdrop-blur-sm p-1 rounded-xl min-w-max sm:min-w-0">
+                <TabsTrigger 
+                  value="murals" 
+                  className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-[hsl(var(--art-teal))] data-[state=active]:to-[hsl(var(--art-coral))] data-[state=active]:text-white rounded-lg px-4 py-2 whitespace-nowrap"
+                >
+                  <span className="text-sm md:text-base font-semibold">
+                    {language === 'es' ? 'Murales' : 'Murals'}
+                  </span>
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="solo" 
+                  className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-[hsl(var(--art-teal))] data-[state=active]:to-[hsl(var(--art-coral))] data-[state=active]:text-white rounded-lg px-4 py-2 whitespace-nowrap"
+                >
+                  <span className="text-sm md:text-base font-semibold">
+                    {language === 'es' ? 'Solo' : 'Solo'}
+                  </span>
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="group" 
+                  className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-[hsl(var(--art-teal))] data-[state=active]:to-[hsl(var(--art-coral))] data-[state=active]:text-white rounded-lg px-4 py-2 whitespace-nowrap"
+                >
+                  <span className="text-sm md:text-base font-semibold">
+                    {language === 'es' ? 'Grupales' : 'Group'}
+                  </span>
+                </TabsTrigger>
+              </TabsList>
+            </div>
 
             <TabsContent value="murals" className="mt-0">
               <div className="grid gap-4">
@@ -353,17 +355,17 @@ export default function CurriculumVitae() {
                     transition={{ duration: 0.5, delay: index * 0.05 }}
                   >
                     <Card className="overflow-hidden border-0 shadow-art hover:shadow-art-lg transition-all duration-300 group">
-                      <CardContent className="p-6">
-                        <div className="flex flex-col lg:flex-row lg:items-start gap-4">
+                      <CardContent className="p-4 sm:p-6">
+                        <div className="flex flex-col sm:flex-row sm:items-start gap-4">
                           <div className="flex-shrink-0">
-                            <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-[hsl(var(--art-teal))] to-[hsl(var(--art-coral))] flex items-center justify-center shadow-lg">
-                              <span className="text-2xl font-bold text-white">{mural.year}</span>
+                            <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl bg-gradient-to-br from-[hsl(var(--art-teal))] to-[hsl(var(--art-coral))] flex items-center justify-center shadow-lg">
+                              <span className="text-xl sm:text-2xl font-bold text-white">{mural.year}</span>
                             </div>
                           </div>
                           
                           <div className="flex-1 space-y-3">
                             <div>
-                              <h3 className="text-2xl font-display font-bold mb-2 group-hover:text-primary transition-colors">
+                              <h3 className="text-lg sm:text-xl md:text-2xl font-display font-bold mb-2 group-hover:text-primary transition-colors">
                                 {mural.title}
                               </h3>
                               {mural.award && (

@@ -19,10 +19,16 @@ export const metadata: Metadata = {
     template: '%s | Art by Fio'
   },
   description: 'Transform your space with bespoke murals and original art by internationally acclaimed artist Fiorella Podestá. Over 30 years creating immersive art experiences.',
-  keywords: 'mural artist, wall art, custom murals, Fiorella Podesta, art commission, large scale art, commercial murals, residential art, Miami artist',
+  keywords: 'mural artist, wall art, custom murals, Fiorella Podesta, art commission, large scale art, commercial murals, residential art, Miami artist, Florida muralist, body art',
   authors: [{ name: 'Fiorella Podestá' }],
   creator: 'Fiorella Podestá',
   metadataBase: new URL(process.env.NEXTAUTH_URL ?? 'https://artbyfio.com'),
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 5,
+    userScalable: true,
+  },
   openGraph: {
     type: 'website',
     locale: 'en_US',
