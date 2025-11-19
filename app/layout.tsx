@@ -81,6 +81,23 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              "name": "Fiorella Podestá",
+              "alternateName": "Fio",
+              "description": "International mural artist with over 30 years of experience creating immersive art experiences",
+              "url": "https://artbyfio.com",
+              "jobTitle": "Mural Artist",
+              "nationality": "Chilean"
+            })
+          }}
+        />
+      </head>
       <body className={`${inter.variable} ${playfair.variable} font-sans antialiased`}>
         <AuthProvider>
           <ThemeProvider

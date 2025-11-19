@@ -1,0 +1,132 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://artbyfio.com/#artist",
+      "name": "Fiorella Podestá",
+      "alternateName": "Fio",
+      "description": "International mural artist with over 30 years of experience creating immersive art experiences",
+      "url": "https://artbyfio.com",
+      "image": "https://artbyfio.com/images/artist/nahis-music-mural-spain.jpg",
+      "jobTitle": "Mural Artist",
+      "nationality": "Chilean",
+      "birthPlace": {
+        "@type": "Place",
+        "name": "Elqui Valley, Chile"
+      },
+      "workLocation": [
+        {
+          "@type": "Place",
+          "name": "Miami, Florida, USA"
+        },
+        {
+          "@type": "Place",
+          "name": "Chile"
+        }
+      ],
+      "sameAs": [
+        "https://www.instagram.com/artbyfio",
+        "https://www.facebook.com/artbyfio"
+      ],
+      "knowsAbout": [
+        "Mural Art",
+        "Street Art",
+        "Body Art",
+        "Canvas Painting",
+        "Art Education"
+      ]
+    },
+    {
+      "@type": "ProfessionalService",
+      "@id": "https://artbyfio.com/#business",
+      "name": "Art by Fio",
+      "description": "Professional mural art services including custom murals, commercial art installations, and residential wall art",
+      "url": "https://artbyfio.com",
+      "logo": "https://artbyfio.com/images/Logo/Fio_net_turquesa-removebg-preview.png",
+      "image": "https://artbyfio.com/og-image.png",
+      "founder": {
+        "@id": "https://artbyfio.com/#artist"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "addressRegion": "FL",
+        "addressCountry": "US"
+      },
+      "areaServed": [
+        "United States",
+        "Florida",
+        "Miami",
+        "Latin America",
+        "Spain"
+      ],
+      "priceRange": "$$$$",
+      "serviceType": [
+        "Mural Art",
+        "Custom Wall Art",
+        "Commercial Murals",
+        "Residential Murals",
+        "Art Consulting"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://artbyfio.com/#website",
+      "url": "https://artbyfio.com",
+      "name": "Art by Fio",
+      "description": "Transform your space with bespoke murals by internationally acclaimed artist Fiorella Podestá",
+      "publisher": {
+        "@id": "https://artbyfio.com/#business"
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://artbyfio.com/portfolio?search={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://artbyfio.com/#services",
+      "name": "Mural Art Services",
+      "description": "Professional mural art services offered by Fiorella Podestá",
+      "itemListElement": [
+        {
+          "@type": "Service",
+          "position": 1,
+          "name": "Commercial Murals",
+          "description": "Large-scale murals for businesses, offices, and commercial spaces",
+          "provider": {
+            "@id": "https://artbyfio.com/#business"
+          }
+        },
+        {
+          "@type": "Service",
+          "position": 2,
+          "name": "Residential Murals",
+          "description": "Custom wall art and murals for homes and private spaces",
+          "provider": {
+            "@id": "https://artbyfio.com/#business"
+          }
+        },
+        {
+          "@type": "Service",
+          "position": 3,
+          "name": "Educational Murals",
+          "description": "Inspiring murals for schools, libraries, and educational institutions",
+          "provider": {
+            "@id": "https://artbyfio.com/#business"
+          }
+        },
+        {
+          "@type": "Service",
+          "position": 4,
+          "name": "Community Art Projects",
+          "description": "Public art installations and community mural projects",
+          "provider": {
+            "@id": "https://artbyfio.com/#business"
+          }
+        }
+      ]
+    }
+  ]
+}
