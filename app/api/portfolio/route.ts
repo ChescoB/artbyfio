@@ -31,7 +31,7 @@ export async function GET(request: NextRequest) {
       take: limit ? parseInt(limit) : undefined
     });
 
-    const transformedProjects = projects.map(project => ({
+    const transformedProjects = projects.map((project: any) => ({
       ...project,
       dimensions: `${project.width} ft × ${project.height} ft`
     }));
