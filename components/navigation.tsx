@@ -42,7 +42,7 @@ export default function Navigation() {
           >
             <div className="relative w-12 h-12 sm:w-14 sm:h-14">
               <Image
-                src="/images/logo/Fio_net_turquesa-removebg-preview.png?v=2"
+                src="/images/Logo/Fio_net_turquesa-removebg-preview.png"
                 alt="Art by Fio Logo"
                 fill
                 className="object-contain"
