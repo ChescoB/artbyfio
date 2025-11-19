@@ -81,6 +81,9 @@ export interface MuralProjectWithTranslation extends Omit<MuralProject, 'id' | '
   translatedTitle: string;
   translatedDescription: string;
   dimensions: string;
+  medium?: string;
+  beforeImageUrl?: string | null;
+  afterImageUrl?: string | null;
   createdAt: Date;
   updatedAt: Date;
 }

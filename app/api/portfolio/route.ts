@@ -1,6 +1,6 @@
 
 import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@/lib/db';
+import { portfolioArtworks } from '@/lib/portfolio-data';
 
 export const dynamic = "force-dynamic";
 
@@ -11,27 +11,31 @@ export async function GET(request: NextRequest) {
     const featured = searchParams.get('featured');
     const limit = searchParams.get('limit');
 
-    let whereClause: any = {};
+    let filteredProjects = [...portfolioArtworks];
 
+    // Filter by category
     if (category && category !== 'All') {
-      whereClause.category = category;
+      filteredProjects = filteredProjects.filter(p => p.category === category);
     }
 
+    // Filter by featured
     if (featured === 'true') {
-      whereClause.featured = true;
+      filteredProjects = filteredProjects.filter(p => p.featured === true);
     }
 
-    const projects = await prisma.muralProject.findMany({
-      where: whereClause,
-      orderBy: [
-        { featured: 'desc' },
-        { year: 'desc' },
-        { createdAt: 'desc' }
-      ],
-      take: limit ? parseInt(limit) : undefined
+    // Sort by featured, then year, then created date
+    filteredProjects.sort((a, b) => {
+      if (a.featured !== b.featured) return b.featured ? 1 : -1;
+      if (a.year !== b.year) return b.year - a.year;
+      return b.createdAt.getTime() - a.createdAt.getTime();
     });
 
-    const transformedProjects = projects.map((project: any) => ({
+    // Apply limit
+    if (limit) {
+      filteredProjects = filteredProjects.slice(0, parseInt(limit));
+    }
+
+    const transformedProjects = filteredProjects.map((project: any) => ({
       ...project,
       dimensions: `${project.width} ft × ${project.height} ft`
     }));
