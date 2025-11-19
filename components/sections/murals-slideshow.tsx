@@ -72,12 +72,14 @@ export default function MuralsSlideshow({ intervalMs = 7000, className, images =
 
   // Advance index
   useEffect(() => {
-    if (!ordered.length) return;
+    if (!ordered.length) return undefined;
     timerRef.current && clearTimeout(timerRef.current);
     timerRef.current = setTimeout(() => {
       setIndex(i => (i + 1) % ordered.length);
     }, intervalMs);
-    return () => timerRef.current && clearTimeout(timerRef.current);
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
   }, [index, ordered, intervalMs]);
 
   // Preload next image
