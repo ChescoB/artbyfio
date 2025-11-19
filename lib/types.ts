@@ -1,8 +1,77 @@
 
-import { MuralProject, ContactSubmission, Testimonial, NewsletterSubscriber, BlogPost, Exhibition } from '@prisma/client';
-
 // Language types
 export type Language = 'en' | 'es';
+
+// Base types (no Prisma dependency)
+export interface MuralProject {
+  id: string;
+  title: string;
+  description: string;
+  category: string;
+  featured: boolean;
+  year: number;
+  width: number;
+  height: number;
+  imageUrl: string;
+  location?: string;
+  client?: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface ContactSubmission {
+  id: string;
+  name: string;
+  email: string;
+  phone?: string;
+  projectType: string;
+  budget?: string;
+  message: string;
+  language: Language;
+  status: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface Testimonial {
+  id: string;
+  clientName: string;
+  company?: string;
+  content: string;
+  rating: number;
+  featured: boolean;
+  createdAt: Date;
+}
+
+export interface NewsletterSubscriber {
+  id: string;
+  email: string;
+  name?: string;
+  language: Language;
+  subscribed: boolean;
+  createdAt: Date;
+}
+
+export interface BlogPost {
+  id: string;
+  title: string;
+  slug: string;
+  content: string;
+  excerpt: string;
+  published: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface Exhibition {
+  id: string;
+  title: string;
+  location: string;
+  startDate: Date;
+  endDate?: Date;
+  description?: string;
+  createdAt: Date;
+}
 
 // Extended types with computed fields
 export interface MuralProjectWithTranslation extends Omit<MuralProject, 'id' | 'createdAt' | 'updatedAt'> {
