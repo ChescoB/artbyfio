@@ -1,0 +1,195 @@
+
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client-js"
+    binaryTargets = ["native", "linux-musl-arm64-openssl-3.0.x"]
+    output = "/home/ubuntu/artbyfio_website/nextjs_space/node_modules/.prisma/client"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+// User model for authentication
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  password      String
+  image         String?
+  role          String    @default("user") // admin, user
+  accounts      Account[]
+  sessions      Session[]
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@map("users")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verificationtokens")
+}
+
+// Content Sections (for editable website content)
+model ContentSection {
+  id          String   @id @default(cuid())
+  key         String   @unique // hero_title, hero_subtitle, about_intro, etc.
+  title       String   // Display name for admin panel
+  content     String   // English content
+  contentEs   String?  // Spanish content
+  type        String   // text, textarea, richtext, image
+  page        String   // home, about, services, contact
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("content_sections")
+}
+
+// Portfolio/Mural Projects
+model MuralProject {
+  id          String   @id @default(cuid())
+  title       String
+  titleEs     String?  // Spanish title
+  description String
+  descriptionEs String? // Spanish description
+  location    String
+  year        Int
+  width       Float    // in feet
+  height      Float    // in feet
+  medium      String
+  client      String?
+  category    String   // Commercial, Residential, Public Art
+  imageUrl    String
+  beforeImageUrl String?
+  afterImageUrl  String?
+  featured    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("mural_projects")
+}
+
+// Contact Form Submissions
+model ContactSubmission {
+  id          String   @id @default(cuid())
+  name        String
+  email       String
+  phone       String?
+  projectType String   // Commission, Purchase, General Inquiry
+  budget      String?
+  message     String
+  language    String   @default("en") // en or es
+  status      String   @default("new") // new, in_progress, completed
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("contact_submissions")
+}
+
+// Client Testimonials
+model Testimonial {
+  id        String   @id @default(cuid())
+  name      String
+  company   String?
+  location  String?
+  content   String
+  contentEs String?  // Spanish version
+  rating    Int?     // 1-5 stars
+  imageUrl  String?  // Optional client photo
+  featured  Boolean  @default(false)
+  approved  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("testimonials")
+}
+
+// Newsletter Subscriptions
+model NewsletterSubscriber {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  language  String   @default("en") // en or es
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("newsletter_subscribers")
+}
+
+// Blog/News Posts (for future content updates)
+model BlogPost {
+  id          String   @id @default(cuid())
+  title       String
+  titleEs     String?  // Spanish title
+  slug        String   @unique
+  content     String
+  contentEs   String?  // Spanish content
+  excerpt     String?
+  excerptEs   String?  // Spanish excerpt
+  imageUrl    String?
+  published   Boolean  @default(false)
+  featured    Boolean  @default(false)
+  tags        String[] // Array of tags
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  publishedAt DateTime?
+
+  @@map("blog_posts")
+}
+
+// Exhibition Records
+model Exhibition {
+  id          String   @id @default(cuid())
+  title       String
+  type        String   // Solo or Group
+  year        Int
+  location    String
+  venue       String
+  description String?
+  imageUrl    String?
+  featured    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("exhibitions")
+}

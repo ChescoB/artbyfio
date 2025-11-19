@@ -1,0 +1,92 @@
+You are to design and optimise a modern, highly-professional, visually striking website for the artist Fiorella Podestá, known as “Fio”, hosted at artbyfio.com. The aim: convert visitors into clients who want to commission or purchase her art. 
+
+**1. Brand voice & positioning**  
+- Present Fio as an exceptionally talented, internationally-experienced visual/mural artist with over 25 years of creative practice.  
+- Emphasise her signature style, large-scale murals, unique aesthetics, and ability to bring spaces to life.  
+- Use language that is confident, creative, premium, and inviting.  
+- Speak directly to potential clients (commercial, residential, hospitality, corporate). Focus on “make your space unforgettable”, “invest in original art”, “collaboration with a master artist”.
+
+**2. Homepage structure & key messages**  
+- Hero section: large striking full-width image of one of her murals (for example the “Magic Nature” 55 ft x 20 ft or other bold piece). Overlay tagline: “Transforming walls into immersive art experiences.” Sub-tagline: “Commission bespoke murals & limited-edition works by Fio.”  
+- Call-to-action (CTA): “Book a consultation” or “Start your commission”.  
+- Brief “Why choose Fio?” section with 3-4 short points: international portfolio, large-scale installations, unique aesthetic, streamlined process.  
+- Featured work carousel / grid of selected projects (mural, canvas, art installation).  
+- Testimonials or client logos (if available).  
+- Secondary CTA: “See full portfolio” → link to Portfolio/Murals page.  
+- Footer: contact details (email ArtbyFio@gmail.com), social links (Instagram, Facebook, Twitter), newsletter signup (optional).  
+- Ensure the site is fully responsive, high-quality visuals, fast-loading, clean typography, modern layout.
+
+**3. Portfolio / Mural Gallery**  
+- Create a dedicated gallery page (MURALS) showcasing her large-scale work: each project card with high-res image, title, location/year, short description (size, medium, client). Use the data from her CV: e.g., “2023 ‘Magic Nature’ 55 ft × 20 ft – Acrylic on concrete – Montessori Academy, Tamarac, FL.” :contentReference[oaicite:2]{index=2}  
+- Filter or categorise by “Commercial”, “Residential”, “Public Art”.  
+- On hover or click, project expands with before/after where possible, client quote, project details.  
+- CTA on each page: “Enquire about a similar project”.
+
+**4. About / Bio Page**  
+- Tell Fio’s story: highlight her roots (Chile, Elqui Valley, etc), evolution into muralist and canvas painter, major achievements (public murals in USA, Spain, Chile). Use the CV list for key timeline. :contentReference[oaicite:3]{index=3}  
+- Use strong visuals: artist in studio, working on wall, finished piece.  
+- Emphasise her creative philosophy, unique process, collaboration with clients, commitment to quality.  
+- CTA: “Let’s talk about your space”.
+
+**5. Services / Commission Process**  
+- Provide a clear explanation of what the client can commission: large-scale mural, canvas work, custom design, site consultation, execution.  
+- Outline the process in 3-5 steps (Initial consultation → Concept & design → Production → Installation/Finish).  
+- Mention deliverables, typical timelines, materials used, and that she handles everything from design to installation.  
+- Provide a pricing guide or at least starting range (if comfortable) or note “custom quotes given”.  
+- CTA: “Request a quote”.
+
+**6. Shop / Products (if applicable)**  
+- If Fio is selling limited-edition prints or canvas work (see the “Art by Fio Shoes” storefront but possibly update) :contentReference[oaicite:4]{index=4} ensure easy, visually rich product pages.  
+- Include high-quality imagery, story behind the piece, size & medium, pricing, “Add to Cart” or “Enquire”.  
+- Cross-sell “commission your own bespoke version”.
+
+**7. Contact / Lead Capture**  
+- Simple contact form (name, email, project type, budget, description) plus option to upload inspiration images.  
+- Show email address and social media links.  
+- Include “Book a free consultation”/“Schedule a call” link (using Calendly or similar).  
+- Have strong conversion elements: “Bring your vision to life with Fio.”
+
+**8. Visual & UX elements**  
+- Use a clean, minimalist design so the art takes centre stage.  
+- Use large high-resolution imagery, generous whitespace, bold typography for headings (e.g., modern sans serif).  
+- Colour palette: let her art set the colour tone; use neutral background (white or very light grey) to let visuals pop. Accent colour could match a signature colour in her art (e.g., electric teal, coral, or vibrant accent).  
+- Navigation should be simple (Home, About, Portfolio/Murals, Services, Shop, Contact).  
+- Use smooth scroll, subtle animations (fade-in gallery, hover states) but keep performance high.  
+- Optimise for mobile: gallery, images resizing, touch interactions.  
+- Optimize for speed: compress images, lazy-loading, use WebP, minimise scripts.  
+- SEO: optimize page titles, meta descriptions, alt text for images (“Fiorella Podestá Fio mural Boys & Girls Club Delray Beach 2023”), structured data for “Artist”.  
+- Analytics: set up Google Analytics / Tag Manager, track contact form submissions and CTA clicks.
+
+**9. Conversion optimisation**  
+- Use clear CTAs at multiple points (“Start your project”, “See portfolio”, “Contact Fio”).  
+- Use social proof: past clients, notable projects, any media mentions (if available).  
+- Use urgency or exclusivity subtly: “Limited calendar for 2025 commissions”, “Book early to secure your spot”.  
+- Use showcase of before/after or time-lapse of mural installation (if available).  
+- Use testimonial slider with short quotes from past clients (can be fabricated placeholder until real ones are available).  
+- Use exit intent pop-up offering “Free downloadable brochure of Fio’s work” in exchange for email (to build lead list).  
+- Use a newsletter signup with benefit (“Get first access to new works & prints”).
+
+**10. Maintenance & analytics**  
+- Advise on content management: make gallery and portfolio easily updatable (CMS / Shopify / WordPress depending on platform).  
+- Recommend periodic blog/news updates to keep site fresh (“Latest mural projects”, “Behind the scenes with Fio”). For example, she already has a blog on Murals. :contentReference[oaicite:5]{index=5}  
+- Track key metrics: traffic, bounce rate, conversion rate (form fills, quote requests), sales (if product shop).  
+- Provide A/B test plan: e.g., test hero taglines, CTA colours, image variations.
+
+**11. Prompt for DeepAgent**  
+- “Generate full website sitemap, page wireframes, suggested copy (for hero, about, services, portfolio) in English (and optionally Spanish).  
+- “Produce final HTML/CSS snippets for homepage hero section, gallery grid, contact form, responsive layout for mobile.  
+- “Provide image suggestions (hero image, gallery thumbnails) and placeholder text/Alt tags.  
+- “Generate metadata (titles, meta descriptions, OG tags) for SEO and social media sharing.  
+- “List recommended analytics/tracking implementation and conversion measurement set-up.  
+- “Provide recommendations for site maintenance and conversion optimisation ongoing.”
+
+**12. Tone & deliverables**  
+- Tone: creative, premium, professional with passion.  
+- Deliverables: sitemap, wireframes, copy blocks for each page, HTML/CSS prototypes for key sections, metadata, image recommendations, analytics plan.  
+- Language: primary English; optionally include Spanish translation for key pages (since Fio’s background includes Chile / Spanish-speaking clients).  
+- Deadline: make clear timeline (e.g., “prototype within X days”, “live site within Y days”).  
+- Provide role-specific guidance (designer, developer, marketer) so DeepAgent can tailor accordingly.
+
+---
+
+Use this prompt to direct DeepAgent AI Abacus to build a website for artbyfio.com that looks stunning, communicates Fio’s talent, positions her as a top-tier artist, and drives visitor conversion into clients.

@@ -1,0 +1,366 @@
+
+'use client';
+
+import { useState, useMemo } from 'react';
+import { motion } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
+import Image from 'next/image';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { useLanguage } from '@/lib/language-context';
+import { Eye, ArrowRight, Palette, Sparkles } from 'lucide-react';
+import { MuralProjectWithTranslation } from '@/lib/types';
+import { portfolioArtworks, categoryLabels } from '@/lib/portfolio-data';
+import ProjectDetailDialog from './project-detail-dialog';
+
+type FilterCategory = 'all' | 'murals' | 'canvas' | 'details' | 'installations';
+
+export default function PortfolioGallery() {
+  const { t, language } = useLanguage();
+  const [selectedProject, setSelectedProject] = useState<MuralProjectWithTranslation | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [activeFilter, setActiveFilter] = useState<FilterCategory>('all');
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
+  
+  const { ref, inView } = useInView({
+    threshold: 0.05,
+    triggerOnce: true
+  });
+
+  // Filter artworks based on selected category
+  const filteredArtworks = useMemo(() => {
+    if (activeFilter === 'all') return portfolioArtworks;
+    
+    const categoryMap: Record<string, string> = {
+      'murals': 'Murals',
+      'canvas': 'Canvas',
+      'details': 'Details',
+      'installations': 'Installations'
+    };
+    
+    return portfolioArtworks.filter(art => art.category === categoryMap[activeFilter]);
+  }, [activeFilter]);
+
+  const handleViewDetails = (project: MuralProjectWithTranslation) => {
+    setSelectedProject(project);
+    setIsDialogOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setIsDialogOpen(false);
+    setTimeout(() => setSelectedProject(null), 300);
+  };
+
+  // Lightweight container fade to avoid reflow-heavy animations
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1 }
+  };
+
+  // A set of varied entrance animations to keep the grid lively
+  const cardVariants = [
+    {
+      hidden: { opacity: 0, y: 40, scale: 0.95 },
+      visible: {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        transition: { duration: 0.6, ease: [0.43, 0.13, 0.23, 0.96] }
+      }
+    },
+    {
+      hidden: { opacity: 0, y: -30 },
+      visible: {
+        opacity: 1,
+        y: 0,
+        transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
+      }
+    },
+    {
+      hidden: { opacity: 0, x: 35 },
+      visible: {
+        opacity: 1,
+        x: 0,
+        transition: { duration: 0.6, ease: [0.34, 1.56, 0.64, 1] }
+      }
+    },
+    {
+      hidden: { opacity: 0, x: -35 },
+      visible: {
+        opacity: 1,
+        x: 0,
+        transition: { duration: 0.6, ease: [0.34, 1.56, 0.64, 1] }
+      }
+    },
+    {
+      hidden: { opacity: 0, scale: 0.9, rotate: 2 },
+      visible: {
+        opacity: 1,
+        scale: 1,
+        rotate: 0,
+        transition: { duration: 0.65, ease: [0.2, 0.8, 0.2, 1] }
+      }
+    },
+  ] as const;
+
+  const filterVariants = {
+    inactive: { scale: 1 },
+    active: { scale: 1.05 }
+  };
+
+  return (
+    <>
+      <section className="py-12 sm:py-16 md:py-20" ref={ref}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          {/* Filter Buttons */}
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
+            transition={{ duration: 0.6 }}
+            className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-12"
+          >
+            {(Object.keys(categoryLabels) as FilterCategory[]).map((category) => (
+              <motion.div key={category} variants={filterVariants} whileTap={{ scale: 0.95 }}>
+                <Button
+                  onClick={() => setActiveFilter(category)}
+                  variant={activeFilter === category ? "art" : "outline"}
+                  size="sm"
+                  className={`
+                    relative overflow-hidden transition-all duration-300
+                    ${activeFilter === category 
+                      ? 'shadow-lg shadow-primary/20' 
+                      : 'hover:shadow-md'
+                    }
+                  `}
+                >
+                  {activeFilter === category && (
+                    <motion.div
+                      layoutId="activeFilter"
+                      className="absolute inset-0 bg-gradient-to-r from-primary to-secondary -z-10"
+                      transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                    />
+                  )}
+                  <span className="relative z-10 flex items-center gap-1.5">
+                    {category === 'all' && <Sparkles className="w-3.5 h-3.5" />}
+                    {category === 'canvas' && <Palette className="w-3.5 h-3.5" />}
+                    {language === 'es' 
+                      ? categoryLabels[category].es 
+                      : categoryLabels[category].en
+                    }
+                  </span>
+                </Button>
+              </motion.div>
+            ))}
+          </motion.div>
+
+          {/* Artwork Count */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={inView ? { opacity: 1 } : { opacity: 0 }}
+            className="text-center mb-8"
+          >
+            <p className="text-sm text-muted-foreground">
+              {language === 'es' 
+                ? `Mostrando ${filteredArtworks.length} ${filteredArtworks.length === 1 ? 'obra' : 'obras'}`
+                : `Showing ${filteredArtworks.length} ${filteredArtworks.length === 1 ? 'artwork' : 'artworks'}`
+              }
+            </p>
+          </motion.div>
+
+          {/* Masonry Gallery Grid */}
+          <motion.div 
+            key={activeFilter}
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="columns-1 sm:columns-2 lg:columns-3 gap-4 sm:gap-6 space-y-4 sm:space-y-6"
+          >
+              {filteredArtworks.map((artwork, index) => (
+                <motion.div
+                  key={artwork.id}
+                  variants={cardVariants[index % cardVariants.length]}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, amount: 0.25, margin: '0px 0px -15% 0px' }}
+                  whileHover={{ y: -4 }}
+                  whileTap={{ scale: 0.98 }}
+                  style={{ willChange: 'transform' }}
+                  className="break-inside-avoid group cursor-pointer transition-all duration-500 opacity-100"
+                  onMouseEnter={() => setHoveredId(artwork.id)}
+                  onMouseLeave={() => setHoveredId(null)}
+                  onClick={() => handleViewDetails(artwork)}
+                >
+                  <div className="relative overflow-hidden rounded-xl shadow-md hover:shadow-2xl transition-all duration-500 bg-card min-h-[260px]">
+                    {/* Image Container */}
+                    <div className="relative aspect-auto overflow-hidden">
+                      <Image
+                        src={artwork.imageUrl ?? ''}
+                        alt={language === 'es' ? (artwork.titleEs ?? artwork.title) : artwork.title}
+                        width={600}
+                        height={800}
+                        className={`
+                          w-full h-auto object-cover transition-all duration-700 transform-gpu will-change-transform
+                          ${hoveredId === artwork.id ? 'scale-110 brightness-75' : 'scale-100'}
+                        `}
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        priority={index < 6}
+                      />
+                      
+                      {/* Gradient Overlay */}
+                      <motion.div
+                        initial={false}
+                        animate={{
+                          opacity: hoveredId === artwork.id ? 1 : 0
+                        }}
+                        transition={{ duration: 0.4 }}
+                        className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"
+                      />
+
+                      {/* Featured Badge */}
+                      {artwork.featured && (
+                        <div className="absolute top-3 right-3 z-10">
+                          <Badge className="bg-gradient-to-r from-[hsl(var(--art-gold))] to-[hsl(var(--art-coral))] text-white border-0 shadow-lg">
+                            ★ Featured
+                          </Badge>
+                        </div>
+                      )}
+
+                      {/* Category Badge */}
+                      <div className="absolute top-3 left-3 z-10">
+                        <Badge variant="secondary" className="backdrop-blur-sm bg-background/80">
+                          {artwork.category}
+                        </Badge>
+                      </div>
+
+                      {/* Hover Content */}
+                      <motion.div
+                        initial={false}
+                        animate={{
+                          opacity: hoveredId === artwork.id ? 1 : 0,
+                          y: hoveredId === artwork.id ? 0 : 20
+                        }}
+                        transition={{ duration: 0.4, ease: [0.43, 0.13, 0.23, 0.96] }}
+                        className="absolute inset-x-0 bottom-0 p-4 sm:p-6 z-10"
+                      >
+                        <h3 className="text-lg sm:text-xl font-display font-bold text-white mb-2">
+                          {language === 'es' ? (artwork.titleEs ?? artwork.title) : artwork.title}
+                        </h3>
+                        <p className="text-white/90 text-xs sm:text-sm mb-3 line-clamp-2 leading-relaxed">
+                          {language === 'es' 
+                            ? (artwork.descriptionEs ?? artwork.description) 
+                            : artwork.description
+                          }
+                        </p>
+                        <div className="flex items-center gap-2 text-white/80 text-xs sm:text-sm">
+                          <span className="font-medium">{artwork.medium}</span>
+                          {artwork.year && (
+                            <>
+                              <span>•</span>
+                              <span>{artwork.year}</span>
+                            </>
+                          )}
+                        </div>
+                        
+                        <Button 
+                          variant="secondary" 
+                          size="sm" 
+                          className="mt-4 w-full sm:w-auto group/btn"
+                        >
+                          <Eye className="w-4 h-4 mr-2 group-hover/btn:scale-110 transition-transform" />
+                          {language === 'es' ? 'Ver Detalles' : 'View Details'}
+                        </Button>
+                      </motion.div>
+                    </div>
+
+                    {/* Mobile Info (always visible on mobile) */}
+                    <div className="p-4 sm:hidden">
+                      <h3 className="text-base font-display font-bold mb-1">
+                        {language === 'es' ? (artwork.titleEs ?? artwork.title) : artwork.title}
+                      </h3>
+                      <p className="text-muted-foreground text-sm line-clamp-2 mb-2">
+                        {language === 'es' 
+                          ? (artwork.descriptionEs ?? artwork.description) 
+                          : artwork.description
+                        }
+                      </p>
+                      <div className="flex items-center gap-2 text-muted-foreground text-xs">
+                        <span>{artwork.medium}</span>
+                        {artwork.year && (
+                          <>
+                            <span>•</span>
+                            <span>{artwork.year}</span>
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+          </motion.div>
+
+          {/* Empty State */}
+          {filteredArtworks.length === 0 && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="text-center py-20"
+            >
+              <Palette className="w-16 h-16 mx-auto text-muted-foreground/30 mb-4" />
+              <p className="text-muted-foreground">
+                {language === 'es' 
+                  ? 'No se encontraron obras en esta categoría'
+                  : 'No artworks found in this category'
+                }
+              </p>
+            </motion.div>
+          )}
+
+          {/* CTA Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="text-center mt-16 sm:mt-20 p-6 sm:p-8 md:p-10 bg-gradient-to-br from-primary/5 via-secondary/5 to-[hsl(var(--art-teal))]/5 rounded-2xl border border-primary/10"
+          >
+            <h3 className="text-2xl sm:text-3xl font-display font-bold mb-4 bg-gradient-to-r from-primary via-secondary to-[hsl(var(--art-teal))] bg-clip-text text-transparent">
+              {language === 'es' 
+                ? 'Transforme su espacio con arte'
+                : 'Transform Your Space with Art'
+              }
+            </h3>
+            <p className="text-muted-foreground mb-6 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
+              {language === 'es' 
+                ? 'Cada obra cuenta una historia única. Exploremos cómo podemos crear algo extraordinario juntos.'
+                : 'Every artwork tells a unique story. Let\'s explore how we can create something extraordinary together.'
+              }
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
+              <Button asChild variant="art" size="lg" className="w-full sm:w-auto">
+                <Link href="/contact">
+                  {language === 'es' ? 'Comenzar Proyecto' : 'Start Project'}
+                  <ArrowRight className="w-5 h-5 ml-2" />
+                </Link>
+              </Button>
+              
+              <Button asChild variant="outline" size="lg" className="w-full sm:w-auto">
+                <Link href="/services">
+                  {language === 'es' ? 'Ver Servicios' : 'View Services'}
+                </Link>
+              </Button>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Project Detail Dialog */}
+      <ProjectDetailDialog
+        isOpen={isDialogOpen}
+        onClose={handleCloseDialog}
+        project={selectedProject}
+      />
+    </>
+  );
+}
