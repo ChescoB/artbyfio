@@ -147,7 +147,7 @@ canvasFiles.forEach((file, index) => {
     medium: 'Acrylic on canvas',
     client: '',
     category: 'Canvas',
-    imageUrl: '/images/portfolio/canvas-works/${file}',
+    imageUrl: '/images/Portfolio/canvas-works/${file}',
     beforeImageUrl: null,
     afterImageUrl: null,
     featured: false,
