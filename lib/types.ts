@@ -6,7 +6,9 @@ export type Language = 'en' | 'es';
 export interface MuralProject {
   id: string;
   title: string;
+  titleEs?: string;
   description: string;
+  descriptionEs?: string;
   category: string;
   featured: boolean;
   year: number;
