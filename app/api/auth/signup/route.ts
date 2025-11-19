@@ -1,66 +1,17 @@
 
 import { NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
-import bcrypt from 'bcryptjs';
 
-const prisma = new PrismaClient();
-
-export async function POST(request: Request) {
-  try {
-    const { email, password, name } = await request.json();
-
-    if (!email || !password) {
-      return NextResponse.json(
-        { error: 'Email and password are required' },
-        { status: 400 }
-      );
-    }
-
-    // Check if user already exists
-    const existingUser = await prisma.user.findUnique({
-      where: { email }
-    });
-
-    if (existingUser) {
-      return NextResponse.json(
-        { error: 'User already exists' },
-        { status: 400 }
-      );
-    }
-
-    // Hash password
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    // Create user
-    const user = await prisma.user.create({
-      data: {
-        email,
-        password: hashedPassword,
-        name: name || email.split('@')[0],
-        role: 'user'
-      }
-    });
-
-    return NextResponse.json({
-      message: 'User created successfully',
-      user: {
-        id: user.id,
-        email: user.email,
-        name: user.name
-      }
-    });
-  } catch (error) {
-    console.error('Signup error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
-  }
+// Signup disabled: database removed. Returns 501 for both GET and POST.
+export async function POST() {
+  return NextResponse.json(
+    { error: 'Signup disabled in this deployment' },
+    { status: 501 }
+  );
 }
 
-export async function GET(request: Request) {
-  return NextResponse.json({ 
-    message: 'Use POST method to signup',
-    signupEndpoint: '/api/signup'
-  });
+export async function GET() {
+  return NextResponse.json(
+    { error: 'Signup disabled in this deployment' },
+    { status: 501 }
+  );
 }
