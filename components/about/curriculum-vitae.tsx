@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import { useEffect, useState } from 'react';
 import { useLanguage } from '@/lib/language-context';
 import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -251,9 +252,32 @@ const groupExhibitions = [
 export default function CurriculumVitae() {
   const { language } = useLanguage();
   const { ref, inView } = useInView({
-    threshold: 0.1,
+    threshold: 0.05,
     triggerOnce: true
   });
+  const [isMobile, setIsMobile] = useState(true); // Default to true for SSR/initial render
+  const [isClient, setIsClient] = useState(false);
+  
+  useEffect(() => {
+    setIsClient(true);
+    const checkMobile = () => {
+      if (typeof window !== 'undefined') {
+        // Check both innerWidth and matchMedia for more reliable detection
+        const width = window.innerWidth;
+        const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        setIsMobile(width < 1024 || isMobileDevice);
+      }
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    window.addEventListener('orientationchange', checkMobile);
+    
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+      window.removeEventListener('orientationchange', checkMobile);
+    };
+  }, []);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -274,17 +298,21 @@ export default function CurriculumVitae() {
     }
   };
 
+  // Force visibility on mobile - bypass animation gating
+  const shouldAnimate = inView || isMobile;
+
   return (
     <section className="py-20 bg-gradient-to-br from-secondary/5 via-background to-secondary/10" ref={ref}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-          className="text-center mb-16"
+          variants={isMobile ? undefined : containerVariants}
+          initial={isMobile ? false : "hidden"}
+          animate={isMobile ? undefined : (inView ? "visible" : "hidden")}
+          className="text-center mb-12 md:mb-16"
         >
           <motion.div
-            variants={itemVariants}
+            variants={isMobile ? undefined : itemVariants}
+            initial={isMobile ? false : undefined}
             className="inline-block mb-4"
           >
             <span className="px-4 py-2 bg-gradient-to-r from-[hsl(var(--art-teal))]/10 to-[hsl(var(--art-coral))]/10 rounded-full text-sm font-semibold text-primary">
@@ -293,14 +321,16 @@ export default function CurriculumVitae() {
           </motion.div>
           
           <motion.h2 
-            variants={itemVariants}
+            variants={isMobile ? undefined : itemVariants}
+            initial={isMobile ? false : undefined}
             className="text-4xl md:text-6xl font-display font-bold mb-6 bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text"
           >
             {language === 'es' ? 'Curriculum Vitae' : 'Curriculum Vitae'}
           </motion.h2>
           
           <motion.p 
-            variants={itemVariants}
+            variants={isMobile ? undefined : itemVariants}
+            initial={isMobile ? false : undefined}
             className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto"
           >
             {language === 'es' 
@@ -311,9 +341,9 @@ export default function CurriculumVitae() {
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          initial={isMobile ? false : { opacity: 0, y: 30 }}
+          animate={isMobile ? undefined : (inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 })}
+          transition={isMobile ? undefined : { duration: 0.6, delay: 0.15 }}
         >
           <Tabs defaultValue="murals" className="w-full">
             <div className="overflow-x-auto mb-8 -mx-4 px-4 sm:mx-0 sm:px-0">
@@ -350,9 +380,9 @@ export default function CurriculumVitae() {
                 {murals.map((mural, index) => (
                   <motion.div
                     key={index}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
-                    transition={{ duration: 0.5, delay: index * 0.05 }}
+                    initial={isMobile ? false : { opacity: 0, x: -15 }}
+                    animate={isMobile ? undefined : (inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -15 })}
+                    transition={isMobile ? undefined : { duration: 0.4, delay: Math.min(index * 0.035, 0.6) }}
                   >
                     <Card className="overflow-hidden border-0 shadow-art hover:shadow-art-lg transition-all duration-300 group">
                       <CardContent className="p-4 sm:p-6">
@@ -415,9 +445,9 @@ export default function CurriculumVitae() {
                 {soloExhibitions.map((exhibition, index) => (
                   <motion.div
                     key={index}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
-                    transition={{ duration: 0.5, delay: index * 0.05 }}
+                    initial={isMobile ? false : { opacity: 0, x: -15 }}
+                    animate={isMobile ? undefined : (inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -15 })}
+                    transition={isMobile ? undefined : { duration: 0.4, delay: Math.min(index * 0.035, 0.6) }}
                   >
                     <Card className="overflow-hidden border-0 shadow-art hover:shadow-art-lg transition-all duration-300 group">
                       <CardContent className="p-6">
@@ -451,9 +481,9 @@ export default function CurriculumVitae() {
                 {groupExhibitions.map((exhibition, index) => (
                   <motion.div
                     key={index}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
-                    transition={{ duration: 0.5, delay: index * 0.05 }}
+                    initial={isMobile ? false : { opacity: 0, x: -15 }}
+                    animate={isMobile ? undefined : (inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -15 })}
+                    transition={isMobile ? undefined : { duration: 0.4, delay: Math.min(index * 0.035, 0.6) }}
                   >
                     <Card className="overflow-hidden border-0 shadow-art hover:shadow-art-lg transition-all duration-300 group">
                       <CardContent className="p-6">
