@@ -47,8 +47,8 @@ export async function POST(request: NextRequest) {
     let emailId: string | undefined;
     let emailError: string | undefined;
     
-    if (!resend || !process.env.RESEND_API_KEY || process.env.RESEND_API_KEY.includes('XXX')) {
-      console.warn('⚠️ Resend API key not configured properly - email not sent');
+    if (!resend || !process.env.RESEND_API_KEY) {
+      console.warn('⚠️ Resend API key not configured - email not sent');
       emailError = 'Email service not configured';
     } else {
       try {
