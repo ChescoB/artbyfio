@@ -52,10 +52,8 @@ export async function addContactSubmission(partial: Omit<LocalContactSubmission,
     ...partial
   };
   list.push(submission);
-  // Atomic write: write to temp then rename
-  const tmp = CONTACT_FILE + '.tmp';
-  await fs.writeFile(tmp, JSON.stringify(list, null, 2));
-  await fs.rename(tmp, CONTACT_FILE);
+  // Write directly (safer across some serverless tmp FS where rename across devices can fail)
+  await fs.writeFile(CONTACT_FILE, JSON.stringify(list, null, 2));
   return submission;
 }
 
