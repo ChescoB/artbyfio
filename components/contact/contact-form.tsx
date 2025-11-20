@@ -74,7 +74,9 @@ export default function ContactForm() {
         body: JSON.stringify({ ...formData, language })
       });
 
-      if (response.ok) {
+  const data = await response.json();
+      
+  if (response.ok) {
         setIsSuccess(true);
         toast({
           title: language === 'es' ? '¡Mensaje Enviado! ✨' : 'Message Sent! ✨',
@@ -95,12 +97,14 @@ export default function ContactForm() {
           language: language
         });
       } else {
-        throw new Error('Submission failed');
+        console.error('API Error Response:', data);
+        throw new Error(data.error || 'Submission failed');
       }
-    } catch (error) {
+    } catch (error: any) {
+      console.error('Contact form error:', error);
       toast({
         title: "Error",
-        description: t('contact.form.error', 'Error sending message. Please try again.'),
+        description: error.message || t('contact.form.error', 'Error sending message. Please try again.'),
         variant: "destructive"
       });
     } finally {
