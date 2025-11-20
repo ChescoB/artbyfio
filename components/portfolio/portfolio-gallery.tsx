@@ -9,12 +9,12 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useLanguage } from '@/lib/language-context';
-import { Eye, ArrowRight, Palette, Sparkles } from 'lucide-react';
+import { Eye, ArrowRight, Palette, Sparkles, Flower2, Brain, Mountain, ZoomIn } from 'lucide-react';
 import { MuralProjectWithTranslation } from '@/lib/types';
 import { portfolioArtworks, categoryLabels } from '@/lib/portfolio-data';
 import ProjectDetailDialog from './project-detail-dialog';
 
-type FilterCategory = 'all' | 'murals' | 'canvas' | 'details' | 'installations';
+type FilterCategory = 'all' | 'budhaood' | 'freemind' | 'landscapes' | 'canvas' | 'details';
 
 export default function PortfolioGallery() {
   const { t, language } = useLanguage();
@@ -28,18 +28,34 @@ export default function PortfolioGallery() {
     triggerOnce: true
   });
 
-  // Filter artworks based on selected category
+  // Filter artworks based on selected category/series
   const filteredArtworks = useMemo(() => {
     if (activeFilter === 'all') return portfolioArtworks;
     
-    const categoryMap: Record<string, string> = {
-      'murals': 'Murals',
-      'canvas': 'Canvas',
-      'details': 'Details',
-      'installations': 'Installations'
-    };
-    
-    return portfolioArtworks.filter(art => art.category === categoryMap[activeFilter]);
+    return portfolioArtworks.filter(art => {
+      // For series filters, check image path and content
+      if (activeFilter === 'budhaood') {
+        return art.imageUrl.includes('/budhaood-series/') || 
+               art.title.toLowerCase().includes('buddha') ||
+               art.titleEs?.toLowerCase().includes('buda');
+      }
+      if (activeFilter === 'freemind') {
+        return art.imageUrl.includes('/free-mind-series/') ||
+               art.title.includes('Free Mind') ||
+               art.description.includes('Free Mind');
+      }
+      if (activeFilter === 'landscapes') {
+        return art.imageUrl.includes('/future-landscapes/');
+      }
+      if (activeFilter === 'details') {
+        return art.imageUrl.includes('/details/') || art.category === 'Details';
+      }
+      if (activeFilter === 'canvas') {
+        return art.imageUrl.includes('/canvas-works/') || art.category === 'Canvas' || art.category === 'Murals';
+      }
+      
+      return false;
+    });
   }, [activeFilter]);
 
   const handleViewDetails = (project: MuralProjectWithTranslation) => {
@@ -82,45 +98,92 @@ export default function PortfolioGallery() {
       <section className="py-12 sm:py-16 md:py-20" ref={ref}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          {/* Filter Buttons */}
+          {/* Modern Tabbed Filter */}
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
             transition={{ duration: 0.6 }}
-            className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-12"
+            className="mb-12"
           >
-            {(Object.keys(categoryLabels) as FilterCategory[]).map((category) => (
-              <motion.div key={category} variants={filterVariants} whileTap={{ scale: 0.95 }}>
-                <Button
-                  onClick={() => setActiveFilter(category)}
-                  variant={activeFilter === category ? "art" : "outline"}
-                  size="sm"
-                  className={`
-                    relative overflow-hidden transition-all duration-300
-                    ${activeFilter === category 
-                      ? 'shadow-lg shadow-primary/20' 
-                      : 'hover:shadow-md'
-                    }
-                  `}
-                >
-                  {activeFilter === category && (
-                    <motion.div
-                      layoutId="activeFilter"
-                      className="absolute inset-0 bg-gradient-to-r from-primary to-secondary -z-10"
-                      transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                    />
-                  )}
-                  <span className="relative z-10 flex items-center gap-1.5">
-                    {category === 'all' && <Sparkles className="w-3.5 h-3.5" />}
-                    {category === 'canvas' && <Palette className="w-3.5 h-3.5" />}
-                    {language === 'es' 
-                      ? categoryLabels[category].es 
-                      : categoryLabels[category].en
-                    }
-                  </span>
-                </Button>
-              </motion.div>
-            ))}
+            {/* Tab Navigation */}
+            <div className="relative">
+              {/* Decorative gradient line */}
+              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+              
+              <div className="flex flex-wrap justify-center gap-1 sm:gap-2 relative">
+                {(Object.keys(categoryLabels) as FilterCategory[]).map((category) => {
+                  const IconComponent = 
+                    category === 'all' ? Sparkles :
+                    category === 'budhaood' ? Flower2 :
+                    category === 'freemind' ? Brain :
+                    category === 'landscapes' ? Mountain :
+                    category === 'canvas' ? Palette :
+                    category === 'details' ? ZoomIn : Sparkles;
+                  
+                  const isActive = activeFilter === category;
+                  
+                  return (
+                    <motion.button
+                      key={category}
+                      onClick={() => setActiveFilter(category)}
+                      className={`
+                        relative px-4 sm:px-6 py-3 sm:py-4 rounded-t-xl
+                        transition-all duration-300 group
+                        ${isActive 
+                          ? 'bg-gradient-to-br from-primary/10 via-secondary/10 to-[hsl(var(--art-teal))]/10 shadow-lg' 
+                          : 'hover:bg-accent/50'
+                        }
+                      `}
+                      whileHover={{ y: -2 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      {/* Active indicator bar */}
+                      {isActive && (
+                        <motion.div
+                          layoutId="activeTab"
+                          className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-secondary to-[hsl(var(--art-teal))] rounded-t-sm"
+                          transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                        />
+                      )}
+                      
+                      {/* Glow effect on active */}
+                      {isActive && (
+                        <motion.div
+                          initial={{ opacity: 0, scale: 0.8 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          className="absolute inset-0 bg-gradient-to-r from-primary/5 via-secondary/5 to-[hsl(var(--art-teal))]/5 rounded-xl blur-xl -z-10"
+                        />
+                      )}
+                      
+                      <span className={`
+                        flex items-center gap-2 text-sm sm:text-base font-medium transition-all duration-300
+                        ${isActive 
+                          ? 'text-primary font-semibold' 
+                          : 'text-muted-foreground group-hover:text-foreground'
+                        }
+                      `}>
+                        <IconComponent className={`
+                          w-4 h-4 transition-all duration-300
+                          ${isActive ? 'scale-110 text-primary' : 'group-hover:scale-105'}
+                        `} />
+                        <span className="hidden sm:inline">
+                          {language === 'es' 
+                            ? categoryLabels[category].es 
+                            : categoryLabels[category].en
+                          }
+                        </span>
+                        <span className="sm:hidden">
+                          {(language === 'es' 
+                            ? categoryLabels[category].es 
+                            : categoryLabels[category].en
+                          ).split(' ')[0]}
+                        </span>
+                      </span>
+                    </motion.button>
+                  );
+                })}
+              </div>
+            </div>
           </motion.div>
 
           {/* Artwork Count */}
