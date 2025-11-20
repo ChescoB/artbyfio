@@ -5,8 +5,7 @@ import { useInView } from 'react-intersection-observer';
 import { useEffect, useState } from 'react';
 import { useLanguage } from '@/lib/language-context';
 import { Card, CardContent } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { MapPin, Calendar, Ruler, Award } from 'lucide-react';
+import { MapPin, Calendar, Ruler, Award, Palette, Users } from 'lucide-react';
 
 const murals = [
   {
@@ -298,8 +297,12 @@ export default function CurriculumVitae() {
     }
   };
 
-  // Force visibility on mobile - bypass animation gating
-  const shouldAnimate = inView || isMobile;
+  // Combine all events into a unified timeline
+  const allEvents = [
+    ...murals.map(item => ({ ...item, type: 'mural', category: language === 'es' ? 'Mural' : 'Mural' })),
+    ...soloExhibitions.map(item => ({ ...item, type: 'solo', category: language === 'es' ? 'Exposición Individual' : 'Solo Exhibition' })),
+    ...groupExhibitions.map(item => ({ ...item, type: 'group', category: language === 'es' ? 'Exposición Grupal' : 'Group Exhibition' }))
+  ].sort((a, b) => b.year - a.year); // Sort by year descending (newest first)
 
   return (
     <section className="py-20 bg-gradient-to-br from-secondary/5 via-background to-secondary/10" ref={ref}>
@@ -344,70 +347,63 @@ export default function CurriculumVitae() {
           initial={isMobile ? false : { opacity: 0, y: 30 }}
           animate={isMobile ? undefined : (inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 })}
           transition={isMobile ? undefined : { duration: 0.6, delay: 0.15 }}
+          className="relative"
         >
-          <Tabs defaultValue="murals" className="w-full">
-            <div className="overflow-x-auto mb-8 -mx-4 px-4 sm:mx-0 sm:px-0">
-              <TabsList className="inline-flex sm:grid w-auto sm:w-full grid-cols-3 gap-2 bg-muted/50 backdrop-blur-sm p-1 rounded-xl min-w-max sm:min-w-0">
-                <TabsTrigger 
-                  value="murals" 
-                  className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-[hsl(var(--art-teal))] data-[state=active]:to-[hsl(var(--art-coral))] data-[state=active]:text-white rounded-lg px-4 py-2 whitespace-nowrap"
+          {/* Timeline connector line */}
+          <div className="absolute left-8 md:left-10 top-0 bottom-0 w-0.5 bg-gradient-to-b from-[hsl(var(--art-teal))] via-[hsl(var(--art-coral))] to-[hsl(var(--art-purple))] opacity-30" />
+          
+          <div className="grid gap-6">
+            {allEvents.map((event, index) => {
+              const isMural = event.type === 'mural';
+              const isSolo = event.type === 'solo';
+              const isGroup = event.type === 'group';
+              
+              return (
+                <motion.div
+                  key={`${event.type}-${index}`}
+                  initial={isMobile ? false : { opacity: 0, x: -15 }}
+                  animate={isMobile ? undefined : (inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -15 })}
+                  transition={isMobile ? undefined : { duration: 0.4, delay: Math.min(index * 0.02, 0.4) }}
+                  className="relative"
                 >
-                  <span className="text-sm md:text-base font-semibold">
-                    {language === 'es' ? 'Murales' : 'Murals'}
-                  </span>
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="solo" 
-                  className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-[hsl(var(--art-teal))] data-[state=active]:to-[hsl(var(--art-coral))] data-[state=active]:text-white rounded-lg px-4 py-2 whitespace-nowrap"
-                >
-                  <span className="text-sm md:text-base font-semibold">
-                    {language === 'es' ? 'Solo' : 'Solo'}
-                  </span>
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="group" 
-                  className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-[hsl(var(--art-teal))] data-[state=active]:to-[hsl(var(--art-coral))] data-[state=active]:text-white rounded-lg px-4 py-2 whitespace-nowrap"
-                >
-                  <span className="text-sm md:text-base font-semibold">
-                    {language === 'es' ? 'Grupales' : 'Group'}
-                  </span>
-                </TabsTrigger>
-              </TabsList>
-            </div>
-
-            <TabsContent value="murals" className="mt-0">
-              <div className="grid gap-4">
-                {murals.map((mural, index) => (
-                  <motion.div
-                    key={index}
-                    initial={isMobile ? false : { opacity: 0, x: -15 }}
-                    animate={isMobile ? undefined : (inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -15 })}
-                    transition={isMobile ? undefined : { duration: 0.4, delay: Math.min(index * 0.035, 0.6) }}
-                  >
-                    <Card className="overflow-hidden border-0 shadow-art hover:shadow-art-lg transition-all duration-300 group">
-                      <CardContent className="p-4 sm:p-6">
-                        <div className="flex flex-col sm:flex-row sm:items-start gap-4">
-                          <div className="flex-shrink-0">
-                            <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl bg-gradient-to-br from-[hsl(var(--art-teal))] to-[hsl(var(--art-coral))] flex items-center justify-center shadow-lg">
-                              <span className="text-xl sm:text-2xl font-bold text-white">{mural.year}</span>
-                            </div>
+                  <Card className="overflow-hidden border-0 shadow-art hover:shadow-art-lg transition-all duration-300 group ml-16 md:ml-20">
+                    <CardContent className="p-4 sm:p-6">
+                      <div className="flex flex-col sm:flex-row sm:items-start gap-4">
+                        {/* Year badge - positioned over timeline */}
+                        <div className="absolute -left-[4.5rem] md:-left-[5.5rem] top-4 sm:top-6">
+                          <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl bg-gradient-to-br from-[hsl(var(--art-teal))] to-[hsl(var(--art-coral))] flex items-center justify-center shadow-lg border-4 border-background">
+                            <span className="text-lg sm:text-xl font-bold text-white">{event.year}</span>
                           </div>
-                          
-                          <div className="flex-1 space-y-3">
-                            <div>
-                              <h3 className="text-lg sm:text-xl md:text-2xl font-display font-bold mb-2 group-hover:text-primary transition-colors">
-                                {mural.title}
-                              </h3>
-                              {mural.award && (
-                                <div className="inline-flex items-center gap-2 px-3 py-1 bg-yellow-100 dark:bg-yellow-900/30 rounded-full mb-2">
-                                  <Award className="w-4 h-4 text-yellow-600 dark:text-yellow-500" />
-                                  <span className="text-sm font-medium text-yellow-800 dark:text-yellow-400">
-                                    {mural.award}
-                                  </span>
-                                </div>
-                              )}
+                        </div>
+                        
+                        <div className="flex-1 space-y-3">
+                          <div>
+                            {/* Category badge */}
+                            <div className="inline-flex items-center gap-2 px-3 py-1 bg-gradient-to-r from-[hsl(var(--art-teal))]/10 to-[hsl(var(--art-coral))]/10 rounded-full mb-2">
+                              {isMural && <Palette className="w-3 h-3 text-primary" />}
+                              {isSolo && <Award className="w-3 h-3 text-primary" />}
+                              {isGroup && <Users className="w-3 h-3 text-primary" />}
+                              <span className="text-xs font-semibold text-primary uppercase tracking-wide">
+                                {event.category}
+                              </span>
                             </div>
                             
+                            <h3 className="text-lg sm:text-xl md:text-2xl font-display font-bold mb-2 group-hover:text-primary transition-colors">
+                              {event.title}
+                            </h3>
+                            
+                            {'award' in event && event.award && (
+                              <div className="inline-flex items-center gap-2 px-3 py-1 bg-yellow-100 dark:bg-yellow-900/30 rounded-full mb-2">
+                                <Award className="w-4 h-4 text-yellow-600 dark:text-yellow-500" />
+                                <span className="text-sm font-medium text-yellow-800 dark:text-yellow-400">
+                                  {event.award}
+                                </span>
+                              </div>
+                            )}
+                          </div>
+                          
+                          {/* Mural-specific details */}
+                          {isMural && 'dimensions' in event && event.dimensions && (
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-muted-foreground">
                               <div className="flex items-start gap-2">
                                 <Ruler className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
@@ -415,7 +411,7 @@ export default function CurriculumVitae() {
                                   <p className="text-sm font-medium text-foreground/70">
                                     {language === 'es' ? 'Dimensiones' : 'Dimensions'}
                                   </p>
-                                  <p className="text-sm">{mural.dimensions}</p>
+                                  <p className="text-sm">{event.dimensions}</p>
                                 </div>
                               </div>
                               
@@ -425,95 +421,39 @@ export default function CurriculumVitae() {
                                   <p className="text-sm font-medium text-foreground/70">
                                     {language === 'es' ? 'Ubicación' : 'Location'}
                                   </p>
-                                  <p className="text-sm">{mural.location}</p>
+                                  <p className="text-sm">{event.location}</p>
                                 </div>
                               </div>
                             </div>
-                            
-                            <p className="text-sm italic text-muted-foreground">{mural.medium}</p>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-                ))}
-              </div>
-            </TabsContent>
-
-            <TabsContent value="solo" className="mt-0">
-              <div className="grid gap-4">
-                {soloExhibitions.map((exhibition, index) => (
-                  <motion.div
-                    key={index}
-                    initial={isMobile ? false : { opacity: 0, x: -15 }}
-                    animate={isMobile ? undefined : (inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -15 })}
-                    transition={isMobile ? undefined : { duration: 0.4, delay: Math.min(index * 0.035, 0.6) }}
-                  >
-                    <Card className="overflow-hidden border-0 shadow-art hover:shadow-art-lg transition-all duration-300 group">
-                      <CardContent className="p-6">
-                        <div className="flex flex-col lg:flex-row lg:items-start gap-4">
-                          <div className="flex-shrink-0">
-                            <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-[hsl(var(--art-teal))] to-[hsl(var(--art-coral))] flex items-center justify-center shadow-lg">
-                              <span className="text-2xl font-bold text-white">{exhibition.year}</span>
-                            </div>
-                          </div>
+                          )}
                           
-                          <div className="flex-1 space-y-2">
-                            <h3 className="text-2xl font-display font-bold group-hover:text-primary transition-colors">
-                              {exhibition.title}
-                            </h3>
-                            <p className="text-muted-foreground">{exhibition.details}</p>
-                            <div className="flex items-start gap-2 text-muted-foreground">
-                              <MapPin className="w-4 h-4 text-primary flex-shrink-0 mt-1" />
-                              <p className="text-sm">{exhibition.location}</p>
-                            </div>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-                ))}
-              </div>
-            </TabsContent>
-
-            <TabsContent value="group" className="mt-0">
-              <div className="grid gap-4">
-                {groupExhibitions.map((exhibition, index) => (
-                  <motion.div
-                    key={index}
-                    initial={isMobile ? false : { opacity: 0, x: -15 }}
-                    animate={isMobile ? undefined : (inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -15 })}
-                    transition={isMobile ? undefined : { duration: 0.4, delay: Math.min(index * 0.035, 0.6) }}
-                  >
-                    <Card className="overflow-hidden border-0 shadow-art hover:shadow-art-lg transition-all duration-300 group">
-                      <CardContent className="p-6">
-                        <div className="flex flex-col lg:flex-row lg:items-start gap-4">
-                          <div className="flex-shrink-0">
-                            <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-[hsl(var(--art-teal))] to-[hsl(var(--art-coral))] flex items-center justify-center shadow-lg">
-                              <span className="text-2xl font-bold text-white">{exhibition.year}</span>
-                            </div>
-                          </div>
+                          {/* Exhibition details */}
+                          {(isSolo || isGroup) && 'details' in event && event.details && (
+                            <p className="text-muted-foreground">{event.details}</p>
+                          )}
                           
-                          <div className="flex-1 space-y-2">
-                            <h3 className="text-2xl font-display font-bold group-hover:text-primary transition-colors">
-                              {exhibition.title}
-                            </h3>
-                            <p className="text-muted-foreground">{exhibition.details}</p>
-                            <div className="flex items-start gap-2 text-muted-foreground">
-                              <MapPin className="w-4 h-4 text-primary flex-shrink-0 mt-1" />
-                              <p className="text-sm">{exhibition.location}</p>
-                            </div>
+                          {/* Common location and medium */}
+                          <div className="space-y-2">
+                            {!isMural && event.location && (
+                              <div className="flex items-start gap-2 text-muted-foreground">
+                                <MapPin className="w-4 h-4 text-primary flex-shrink-0 mt-1" />
+                                <p className="text-sm">{event.location}</p>
+                              </div>
+                            )}
+                            {isMural && 'medium' in event && event.medium && (
+                              <p className="text-sm italic text-muted-foreground">{event.medium}</p>
+                            )}
                           </div>
                         </div>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-                ))}
-              </div>
-            </TabsContent>
-          </Tabs>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              );
+            })}
+          </div>
         </motion.div>
       </div>
     </section>
   );
-}
+} 
