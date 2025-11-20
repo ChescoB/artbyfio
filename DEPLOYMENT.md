@@ -45,7 +45,7 @@ ADMIN_PASSWORD="your-secure-password"
 - **About** - Artist story, philosophy, curriculum vitae
 - **Services** - Pricing, process, overview
 - **Contact Form** - Email sending via Resend API + local JSON storage
-- **Nature Body Art** - Gallery page
+- **Native Body Art** - Gallery page
 - **Shop** - Gallery page
 
 ### 🔒 Disabled Features (No Database)

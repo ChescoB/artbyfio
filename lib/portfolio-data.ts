@@ -1,8 +1,9 @@
 import { MuralProjectWithTranslation } from './types';
 
 // Comprehensive portfolio dataset with all artworks
-export const categoryLabels: Record<'all' | 'budhaood' | 'freemind' | 'landscapes' | 'canvas' | 'details', { en: string; es: string }> = {
+export const categoryLabels: Record<'all' | 'murals' | 'budhaood' | 'freemind' | 'landscapes' | 'canvas' | 'details', { en: string; es: string }> = {
   all: { en: 'All Works', es: 'Todas las Obras' },
+  murals: { en: 'Murals', es: 'Murales' },
   budhaood: { en: 'Budhaood Series', es: 'Serie Budhaood' },
   freemind: { en: 'Free Mind Series', es: 'Serie Mente Libre' },
   landscapes: { en: 'Future Landscapes', es: 'Paisajes Futuros' },
@@ -440,7 +441,7 @@ export const portfolioArtworks: MuralProjectWithTranslation[] = [
     medium: 'Acrylic on canvas',
     client: '',
     category: 'Canvas',
-    imageUrl: '/images/Portfolio/canvas-works/portfolio_01_cdn_shop_files.jpg',
+    imageUrl: '/images/Portfolio/budhahood-series/portfolio_01_cdn_shop_files.jpg',
     beforeImageUrl: null,
     afterImageUrl: null,
     featured: true,
@@ -463,7 +464,7 @@ export const portfolioArtworks: MuralProjectWithTranslation[] = [
     medium: 'Mixed media on canvas',
     client: '',
     category: 'Canvas',
-    imageUrl: '/images/Portfolio/canvas-works/portfolio_02_cdn_shop_files.jpg',
+    imageUrl: '/images/Portfolio/free-mind-series/portfolio_02_cdn_shop_files.jpg',
     beforeImageUrl: null,
     afterImageUrl: null,
     featured: true,
@@ -496,29 +497,7 @@ export const portfolioArtworks: MuralProjectWithTranslation[] = [
     createdAt: new Date('2023-03-01'),
     updatedAt: new Date('2023-03-01')
   },
-  {
-    id: 'portfolio-08',
-    title: 'Cultural Tapestry',
-    titleEs: 'Tapiz Cultural',
-    description: 'An intricate mural weaving together cultural symbols, geometric patterns, and organic forms to celebrate diversity and artistic heritage through powerful visual storytelling.',
-    descriptionEs: 'Un mural intrincado que entrelaza símbolos culturales, patrones geométricos y formas orgánicas para celebrar la diversidad y el patrimonio artístico a través de una poderosa narrativa visual.',
-    location: '',
-    year: 2022,
-    width: 38,
-    height: 17,
-    medium: 'Acrylic on canvas',
-    client: '',
-    category: 'Canvas',
-    imageUrl: '/images/Portfolio/canvas-works/portfolio_08_cdn_shop_files.jpg',
-    beforeImageUrl: null,
-    afterImageUrl: null,
-    featured: true,
-    translatedTitle: 'Cultural Tapestry',
-    translatedDescription: 'An intricate mural...',
-    dimensions: '38 ft × 17 ft',
-    createdAt: new Date('2022-01-01'),
-    updatedAt: new Date('2022-01-01')
-  },
+
   {
     id: 'portfolio-09',
     title: 'Nature\'s Symphony',
@@ -532,7 +511,7 @@ export const portfolioArtworks: MuralProjectWithTranslation[] = [
     medium: 'Acrylic on canvas',
     client: '',
     category: 'Canvas',
-    imageUrl: '/images/Portfolio/canvas-works/portfolio_09_cdn_shop_files.jpg',
+    imageUrl: '/images/Portfolio/free-mind-series/portfolio_09_cdn_shop_files.jpg',
     beforeImageUrl: null,
     afterImageUrl: null,
     featured: true,
@@ -542,29 +521,7 @@ export const portfolioArtworks: MuralProjectWithTranslation[] = [
     createdAt: new Date('2022-02-01'),
     updatedAt: new Date('2022-02-01')
   },
-  {
-    id: 'shop-01',
-    title: 'Cosmic Energy',
-    titleEs: 'Energía Cósmica',
-    description: 'An explosive mural radiating cosmic energy through swirling colors and celestial motifs, creating a portal to otherworldly dimensions on brick and concrete.',
-    descriptionEs: 'Un mural explosivo que irradia energía cósmica a través de colores arremolinados y motivos celestiales, creando un portal a dimensiones de otro mundo sobre ladrillo y concreto.',
-    location: '',
-    year: 2023,
-    width: 28,
-    height: 14,
-    medium: 'Mixed media on canvas',
-    client: '',
-    category: 'Canvas',
-    imageUrl: '/images/Portfolio/canvas-works/shop_01_cdn_shop_files.jpg',
-    beforeImageUrl: null,
-    afterImageUrl: null,
-    featured: false,
-    translatedTitle: 'Cosmic Energy',
-    translatedDescription: 'An explosive mural...',
-    dimensions: '28 ft × 14 ft',
-    createdAt: new Date('2023-04-01'),
-    updatedAt: new Date('2023-04-01')
-  },
+
   {
     id: 'shop-03',
     title: 'Urban Poetry',
@@ -611,29 +568,7 @@ export const portfolioArtworks: MuralProjectWithTranslation[] = [
     createdAt: new Date('2022-04-01'),
     updatedAt: new Date('2022-04-01')
   },
-  {
-    id: 'shop-08',
-    title: 'Metamorphosis',
-    titleEs: 'Metamorfosis',
-    description: 'An evolving narrative captured in paint, depicting transformation and growth through organic shapes and fluid transitions that speak to the human experience.',
-    descriptionEs: 'Una narrativa evolutiva capturada en pintura, representando transformación y crecimiento a través de formas orgánicas y transiciones fluidas que hablan de la experiencia humana.',
-    location: '',
-    year: 2021,
-    width: 36,
-    height: 18,
-    medium: 'Acrylic on canvas',
-    client: '',
-    category: 'Canvas',
-    imageUrl: '/images/Portfolio/canvas-works/shop_08_cdn_shop_files.jpg',
-    beforeImageUrl: null,
-    afterImageUrl: null,
-    featured: false,
-    translatedTitle: 'Metamorphosis',
-    translatedDescription: 'An evolving narrative...',
-    dimensions: '36 ft × 18 ft',
-    createdAt: new Date('2021-01-01'),
-    updatedAt: new Date('2021-01-01')
-  },
+
   
   // CANVAS WORKS - Gallery paintings and studio art
   {
@@ -1539,29 +1474,7 @@ export const portfolioArtworks: MuralProjectWithTranslation[] = [
     createdAt: new Date('2023-08-20'),
     updatedAt: new Date('2023-08-20')
   },
-  {
-    id: 'tangerine-buddha-detail-1',
-    title: 'Tangerine Buddha - Detail I',
-    titleEs: 'Buda Tangerina - Detalle I',
-    description: 'An up-close exploration of the Tangerine Buddha, highlighting the meditative precision and spiritual intention embedded in every brushstroke.',
-    descriptionEs: 'Una exploración cercana del Buda Tangerina, destacando la precisión meditativa e intención espiritual incrustada en cada pincelada.',
-    location: '',
-    year: 2023,
-    width: 0,
-    height: 0,
-    medium: 'Detail photography',
-    client: '',
-    category: 'Details',
-    imageUrl: '/images/Portfolio/details/TANGERIN BUDDHA DETAIL.jpg',
-    beforeImageUrl: null,
-    afterImageUrl: null,
-    featured: false,
-    translatedTitle: 'Tangerine Buddha - Detail I',
-    translatedDescription: 'An up-close exploration...',
-    dimensions: 'Detail Shot',
-    createdAt: new Date('2023-05-20'),
-    updatedAt: new Date('2023-05-20')
-  },
+
   {
     id: 'tangerine-buddha-detail-2',
     title: 'Tangerine Buddha - Detail II',

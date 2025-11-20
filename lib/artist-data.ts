@@ -51,9 +51,9 @@ export const navigationItems = [
     href: "/portfolio"
   },
   {
-    title: "Nature Body Art",
-    titleEs: "Arte Corporal Natural",
-    href: "/nature-body-art"
+    title: "Native Body Art",
+    titleEs: "Arte Corporal Nativo",
+    href: "/native-body-art"
   },
   {
     title: "About",

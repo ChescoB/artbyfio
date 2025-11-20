@@ -9,12 +9,12 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useLanguage } from '@/lib/language-context';
-import { Eye, ArrowRight, Palette, Sparkles, Flower2, Brain, Mountain, ZoomIn } from 'lucide-react';
+import { Eye, ArrowRight, Palette, Sparkles, Flower2, Brain, Mountain, ZoomIn, Paintbrush } from 'lucide-react';
 import { MuralProjectWithTranslation } from '@/lib/types';
 import { portfolioArtworks, categoryLabels } from '@/lib/portfolio-data';
 import ProjectDetailDialog from './project-detail-dialog';
 
-type FilterCategory = 'all' | 'budhaood' | 'freemind' | 'landscapes' | 'canvas' | 'details';
+type FilterCategory = 'all' | 'murals' | 'budhaood' | 'freemind' | 'landscapes' | 'canvas' | 'details';
 
 export default function PortfolioGallery() {
   const { t, language } = useLanguage();
@@ -33,6 +33,9 @@ export default function PortfolioGallery() {
     if (activeFilter === 'all') return portfolioArtworks;
     
     return portfolioArtworks.filter(art => {
+      if (activeFilter === 'murals') {
+        return art.category === 'Murals' || art.imageUrl.includes('/images/Murals/');
+      }
       // For series filters, check image path and content
       if (activeFilter === 'budhaood') {
         return art.imageUrl.includes('/budhaood-series/') || 
@@ -114,6 +117,7 @@ export default function PortfolioGallery() {
                 {(Object.keys(categoryLabels) as FilterCategory[]).map((category) => {
                   const IconComponent = 
                     category === 'all' ? Sparkles :
+                    category === 'murals' ? Paintbrush :
                     category === 'budhaood' ? Flower2 :
                     category === 'freemind' ? Brain :
                     category === 'landscapes' ? Mountain :

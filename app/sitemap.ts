@@ -35,7 +35,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.7,
     },
     {
-      url: `${baseUrl}/nature-body-art`,
+      url: `${baseUrl}/native-body-art`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.7,
