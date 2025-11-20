@@ -1,5 +1,6 @@
 import { promises as fs } from 'fs';
 import path from 'path';
+import os from 'os';
 import { nanoid } from 'nanoid';
 
 export interface LocalContactSubmission {
@@ -16,12 +17,19 @@ export interface LocalContactSubmission {
   updatedAt: string;
 }
 
-const DATA_DIR = path.join(process.cwd(), 'data');
-const CONTACT_FILE = path.join(DATA_DIR, 'contact_submissions.json');
+// Choose a writable base directory:
+// - On Vercel/Serverless, the repository filesystem is read-only; use OS temp dir
+// - Locally, prefer the project's data directory for persistence
+const isServerless = !!process.env.VERCEL || process.env.NOW_BUILDER === '1';
+const BASE_DIR = isServerless
+  ? path.join(os.tmpdir(), 'artbyfio')
+  : path.join(process.cwd(), 'data');
+
+const CONTACT_FILE = path.join(BASE_DIR, 'contact_submissions.json');
 
 async function ensureDataDir() {
   try {
-    await fs.mkdir(DATA_DIR, { recursive: true });
+    await fs.mkdir(BASE_DIR, { recursive: true });
   } catch {}
   try {
     await fs.access(CONTACT_FILE);
