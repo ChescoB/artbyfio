@@ -42,7 +42,7 @@ export default function NativeBodyArtHero() {
       <motion.div style={{ y }} className="absolute inset-0 z-0">
         <motion.div style={{ scale }} className="relative w-full h-[120vh]">
           <Image
-            src="/images/body-art/_MG_6876.jpg"
+            src="/images/native-body-art/_MG_6876.jpg"
             alt="Native Body Art"
             fill
             className="object-cover"

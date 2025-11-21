@@ -139,7 +139,7 @@ function ImageItem({ src, index, onClick }: ImageItemProps) {
           className="relative w-full h-full"
         >
           <Image
-            src={`/images/body-art/${src}`}
+            src={`/images/native-body-art/${src}`}
             alt="Native Body Art by Fiorella Podestá"
             fill
             className="object-cover"
@@ -329,7 +329,7 @@ export default function NatureBodyArtGallery() {
             >
               <div className="relative w-full h-full">
                 <Image
-                  src={`/images/body-art/${selectedImage}`}
+                  src={`/images/native-body-art/${selectedImage}`}
                   alt="Native Body Art by Fiorella Podestá - Full View"
                   fill
                   className="object-contain drop-shadow-2xl"
