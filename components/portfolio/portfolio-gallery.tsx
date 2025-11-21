@@ -163,7 +163,7 @@ export default function PortfolioGallery() {
                         flex items-center gap-2 text-sm sm:text-base font-medium transition-all duration-300
                         ${isActive 
                           ? 'text-primary font-semibold' 
-                          : 'text-muted-foreground group-hover:text-foreground'
+                          : 'text-foreground/80 group-hover:text-foreground'
                         }
                       `}>
                         <IconComponent className={`
