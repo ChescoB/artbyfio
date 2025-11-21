@@ -104,7 +104,7 @@ export default function PortfolioGallery() {
           {/* Modern Tabbed Filter */}
           <motion.div
             initial={{ opacity: 0, y: -20 }}
-            animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             className="mb-12"
           >
