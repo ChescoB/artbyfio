@@ -441,7 +441,7 @@ export const portfolioArtworks: MuralProjectWithTranslation[] = [
     medium: 'Acrylic on canvas',
     client: '',
     category: 'Canvas',
-    imageUrl: '/images/Portfolio/budhahood-series/portfolio_01_cdn_shop_files.jpg',
+    imageUrl: '/images/Portfolio/budhaood-series/portfolio_01_cdn_shop_files.jpg',
     beforeImageUrl: null,
     afterImageUrl: null,
     featured: true,
