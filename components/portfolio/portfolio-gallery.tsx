@@ -54,7 +54,7 @@ export default function PortfolioGallery() {
         return art.imageUrl.includes('/details/') || art.category === 'Details';
       }
       if (activeFilter === 'canvas') {
-        return art.imageUrl.includes('/canvas-works/') || art.category === 'Canvas' || art.category === 'Murals';
+        return art.imageUrl.includes('/canvas-works/') || art.category === 'Canvas';
       }
       
       return false;
