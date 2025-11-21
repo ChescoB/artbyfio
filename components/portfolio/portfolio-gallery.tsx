@@ -14,7 +14,7 @@ import { MuralProjectWithTranslation } from '@/lib/types';
 import { portfolioArtworks, categoryLabels } from '@/lib/portfolio-data';
 import ProjectDetailDialog from './project-detail-dialog';
 
-type FilterCategory = 'all' | 'murals' | 'budhaood' | 'freemind' | 'landscapes' | 'canvas' | 'details';
+type FilterCategory = 'all' | 'canvas' | 'murals' | 'budhaood' | 'freemind' | 'landscapes' | 'details';
 
 export default function PortfolioGallery() {
   const { t, language } = useLanguage();
@@ -30,9 +30,12 @@ export default function PortfolioGallery() {
 
   // Filter artworks based on selected category/series
   const filteredArtworks = useMemo(() => {
-    if (activeFilter === 'all') return portfolioArtworks;
+    let filtered: MuralProjectWithTranslation[];
     
-    return portfolioArtworks.filter(art => {
+    if (activeFilter === 'all') {
+      filtered = [...portfolioArtworks];
+    } else {
+      filtered = portfolioArtworks.filter(art => {
       if (activeFilter === 'murals') {
         return art.category === 'Murals' || art.imageUrl.includes('/images/Murals/');
       }
@@ -58,7 +61,20 @@ export default function PortfolioGallery() {
       }
       
       return false;
-    });
+      });
+    }
+    
+    // Shuffle for 'all' and 'canvas' categories
+    if (activeFilter === 'all' || activeFilter === 'canvas') {
+      const shuffled = [...filtered];
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+      return shuffled;
+    }
+    
+    return filtered;
   }, [activeFilter]);
 
   const handleViewDetails = (project: MuralProjectWithTranslation) => {
@@ -117,11 +133,11 @@ export default function PortfolioGallery() {
                 {(Object.keys(categoryLabels) as FilterCategory[]).map((category) => {
                   const IconComponent = 
                     category === 'all' ? Sparkles :
+                    category === 'canvas' ? Palette :
                     category === 'murals' ? Paintbrush :
                     category === 'budhaood' ? Flower2 :
                     category === 'freemind' ? Brain :
                     category === 'landscapes' ? Mountain :
-                    category === 'canvas' ? Palette :
                     category === 'details' ? ZoomIn : Sparkles;
                   
                   const isActive = activeFilter === category;

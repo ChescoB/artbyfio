@@ -1,13 +1,13 @@
 import { MuralProjectWithTranslation } from './types';
 
 // Comprehensive portfolio dataset with all artworks
-export const categoryLabels: Record<'all' | 'murals' | 'budhaood' | 'freemind' | 'landscapes' | 'canvas' | 'details', { en: string; es: string }> = {
+export const categoryLabels: Record<'all' | 'canvas' | 'murals' | 'budhaood' | 'freemind' | 'landscapes' | 'details', { en: string; es: string }> = {
   all: { en: 'All Works', es: 'Todas las Obras' },
+  canvas: { en: 'Canvas Works', es: 'Obras en Lienzo' },
   murals: { en: 'Murals', es: 'Murales' },
   budhaood: { en: 'Budhaood Series', es: 'Serie Budhaood' },
   freemind: { en: 'Free Mind Series', es: 'Serie Mente Libre' },
   landscapes: { en: 'Future Landscapes', es: 'Paisajes Futuros' },
-  canvas: { en: 'Canvas Works', es: 'Obras en Lienzo' },
   details: { en: 'Detail Views', es: 'Vistas Detalladas' },
 };
 
