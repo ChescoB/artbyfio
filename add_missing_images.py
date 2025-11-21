@@ -1,5 +1,6 @@
 import os
 import re
+from datetime import datetime
 
 # Get all images from filesystem
 portfolio_dir = r"C:\Users\franc\Downloads\artbyfio_website_backup\artbyfio_website\nextjs_space\public\images\Portfolio"
@@ -10,7 +11,7 @@ for root, dirs, files in os.walk(portfolio_dir):
         if file.lower().endswith(('.jpg', '.jpeg', '.png', '.gif')) and not file.startswith('.'):
             full_path = os.path.join(root, file)
             relative_path = full_path.replace(portfolio_dir, '/images/Portfolio').replace('\\', '/')
-            folder = relative_path.split('/')[-2]
+            folder = relative_path.split('/')[-2]  # Get parent folder name
             all_files.append((relative_path, folder, file))
 
 # Read portfolio-data.ts
@@ -24,7 +25,7 @@ referenced_images = set(re.findall(pattern, content))
 # Find missing images
 missing_images = [(path, folder, file) for path, folder, file in all_files if path not in referenced_images]
 
-print(f"Found {len(missing_images)} missing images to add")
+print(f"Found {len(missing_images)} missing images")
 
 # Category mapping
 category_map = {
@@ -41,9 +42,7 @@ new_entries = []
 
 for path, folder, filename in sorted(missing_images):
     # Generate ID from filename
-    file_id = filename.lower().replace(' ', '-').replace('.jpg', '').replace('.jpeg', '').replace('.JPG', '').replace('.png', '').replace('(', '').replace(')', '').replace('_', '-').replace('.', '-')
-    if not file_id:
-        file_id = 'artwork-' + str(len(new_entries))
+    file_id = filename.lower().replace(' ', '-').replace('.jpg', '').replace('.jpeg', '').replace('.png', '').replace('(', '').replace(')', '').replace('_', '-')
     
     # Determine category
     category = category_map.get(folder, 'Canvas')
@@ -78,27 +77,33 @@ for path, folder, filename in sorted(missing_images):
     
     new_entries.append(entry)
 
-# Remove the incomplete INSTALLATIONS comment at the end
-content = content.rstrip()
-if content.endswith('// INSTALLATIONS - Special projects and collaborative works'):
-    content = content[:-len('// INSTALLATIONS - Special projects and collaborative works')].rstrip()
+# Find the last entry in the array (before the closing bracket and semicolon)
+# Look for the pattern: export const portfolioArtworks = [...];
+match = re.search(r'(export const portfolioArtworks[^=]*=\s*\[.*?)(\];)', content, re.DOTALL)
 
-# Make sure last entry ends with comma
-if not content.rstrip().endswith(','):
-    content = content.rstrip() + ','
-
-# Add new entries and close the array
-new_content = content + '\n' + ',\n'.join(new_entries) + '\n];\n'
-
-# Write back
-with open(r"C:\Users\franc\Downloads\artbyfio_website_backup\artbyfio_website\nextjs_space\lib\portfolio-data.ts", 'w', encoding='utf-8') as f:
-    f.write(new_content)
-
-print(f"Successfully added {len(new_entries)} new portfolio entries and closed the array!")
-
-# Print summary by category
-from collections import Counter
-category_counts = Counter([category_map.get(folder, 'Canvas') for _, folder, _ in missing_images])
-print("\nAdded by category:")
-for cat, count in sorted(category_counts.items()):
-    print(f"  {cat}: {count} images")
+if match:
+    before_array = match.group(1)
+    # Find the last closing brace before ];
+    last_brace = before_array.rfind('}')
+    
+    # Insert new entries
+    new_content = before_array[:last_brace+1] + ',\n' + ',\n'.join(new_entries) + '\n' + match.group(2)
+    
+    # Replace the rest of the content after the array
+    rest_of_content = content[match.end():]
+    final_content = new_content + rest_of_content
+    
+    # Write back
+    with open(r"C:\Users\franc\Downloads\artbyfio_website_backup\artbyfio_website\nextjs_space\lib\portfolio-data.ts", 'w', encoding='utf-8') as f:
+        f.write(final_content)
+    
+    print(f"Successfully added {len(new_entries)} new portfolio entries!")
+    
+    # Print summary by category
+    from collections import Counter
+    category_counts = Counter([category_map.get(folder, 'Canvas') for _, folder, _ in missing_images])
+    print("\nAdded by category:")
+    for cat, count in sorted(category_counts.items()):
+        print(f"  {cat}: {count} images")
+else:
+    print("ERROR: Could not find portfolio array in file")
