@@ -22,7 +22,7 @@ const featuredProjects = [
     year: 2023,
     dimensions: '40 ft x 15 ft',
     category: 'Public Art',
-    imageUrl: '/IMAGES/PORTAFOLIO/MURALS/hero_01_cdn_shop_files.jpg',
+    imageUrl: '/images/PORTAFOLIO/MURALS/hero_01_cdn_shop_files.jpg',
     description: 'Powerful statement piece celebrating self-expression and identity',
     descriptionEs: 'Pieza de declaración poderosa celebrando la autoexpresión y la identidad'
   },
@@ -34,7 +34,7 @@ const featuredProjects = [
     year: 2022,
     dimensions: '50 ft x 20 ft',
     category: 'Public Art',
-    imageUrl: '/IMAGES/PORTAFOLIO/MURALS/featured_02_cdn_shop_files.jpg',
+    imageUrl: '/images/PORTAFOLIO/MURALS/featured_02_cdn_shop_files.jpg',
     description: 'International collaboration featuring vibrant colors and cultural fusion',
     descriptionEs: 'Colaboración internacional con colores vibrantes y fusión cultural'
   },
@@ -46,7 +46,7 @@ const featuredProjects = [
     year: 2023,
     dimensions: '35 ft x 20 ft',
     category: 'Public Art',
-    imageUrl: '/IMAGES/PORTAFOLIO/MURALS/portfolio_03_cdn_shop_files.jpg',
+    imageUrl: '/images/PORTAFOLIO/MURALS/portfolio_03_cdn_shop_files.jpg',
     description: 'Iconic street art in one of the world\'s most famous outdoor galleries',
     descriptionEs: 'Arte callejero icónico en una de las galerías al aire libre más famosas del mundo'
   },
@@ -58,7 +58,7 @@ const featuredProjects = [
     year: 2022,
     dimensions: '45 ft x 18 ft',
     category: 'Public Art',
-    imageUrl: '/IMAGES/PORTAFOLIO/MURALS/portfolio_05_cdn_shop_files.jpg',
+    imageUrl: '/images/PORTAFOLIO/MURALS/portfolio_05_cdn_shop_files.jpg',
     description: 'Dynamic festival piece showcasing contemporary urban art',
     descriptionEs: 'Pieza dinámica del festival mostrando arte urbano contemporáneo'
   }
