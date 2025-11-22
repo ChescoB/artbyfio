@@ -260,10 +260,9 @@ export default function PortfolioGallery() {
                     {/* Image Container */}
                     <div className="relative aspect-[3/4] md:aspect-[4/5] overflow-hidden">
                       <Image
-                        src={encodeURI(artwork.imageUrl ?? '')}
+                        src={artwork.imageUrl ?? ''}
                         alt={language === 'es' ? (artwork.titleEs ?? artwork.title) : artwork.title}
                         fill
-                        unoptimized
                         className={`
                           object-cover transition-all duration-500
                           ${hoveredId === artwork.id ? 'scale-105 brightness-75' : 'scale-100'}
