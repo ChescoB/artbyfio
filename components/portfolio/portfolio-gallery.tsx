@@ -263,6 +263,7 @@ export default function PortfolioGallery() {
                         src={encodeURI(artwork.imageUrl ?? '')}
                         alt={language === 'es' ? (artwork.titleEs ?? artwork.title) : artwork.title}
                         fill
+                        unoptimized
                         className={`
                           object-cover transition-all duration-500
                           ${hoveredId === artwork.id ? 'scale-105 brightness-75' : 'scale-100'}

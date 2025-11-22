@@ -54,6 +54,7 @@ export default function ProjectDetailDialog({ isOpen, onClose, project }: Projec
                   alt={language === 'es' ? (project?.titleEs ?? project?.title ?? '') : (project?.title ?? '')}
                   width={1200}
                   height={1200}
+                  unoptimized
                   className="w-full h-auto object-contain"
                   style={{ maxHeight: '70vh' }}
                   sizes="(max-width: 1280px) 100vw, 1200px"
