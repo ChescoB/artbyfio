@@ -36,7 +36,7 @@ export default function HeroSection() {
       <MuralsSlideshow />
 
       {/* Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center pb-24 md:pb-28">
+      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-8 lg:px-8 text-center pb-24 md:pb-28">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -45,7 +45,7 @@ export default function HeroSection() {
         >
           <motion.h1 
             initial={{ opacity: 0, y: 24 }}
-            className="font-display font-extrabold text-transparent bg-clip-text mb-6 leading-tight text-4xl md:text-6xl lg:text-7xl drop-shadow-[0_2px_8px_rgba(0,0,0,0.35)]"
+            className="font-display font-extrabold text-transparent bg-clip-text mb-6 md:mb-8 leading-tight text-5xl md:text-6xl lg:text-7xl drop-shadow-[0_2px_8px_rgba(0,0,0,0.35)]"
             style={{
               backgroundImage:
                 'linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.85) 50%, rgba(255,255,255,1) 100%)',
@@ -65,7 +65,7 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-lg md:text-2xl text-white/90 mb-8 leading-relaxed max-w-3xl mx-auto"
+            className="text-xl md:text-2xl text-white/95 mb-10 md:mb-12 leading-relaxed max-w-3xl mx-auto drop-shadow-lg"
           >
             {renderStaggeredWords(subheading)}
           </motion.p>
@@ -74,13 +74,13 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+            className="flex flex-col sm:flex-row gap-5 justify-center items-center"
           >
             <Button 
               asChild 
               variant="art" 
               size="xl"
-              className="group min-w-[200px] hover:scale-[1.02] transition-transform duration-200"
+              className="group min-w-[220px] w-full sm:w-auto hover:scale-[1.02] transition-transform duration-200 shadow-2xl"
             >
               <Link href="/contact">
                 <Calendar className="w-5 h-5 mr-2" />
@@ -93,7 +93,7 @@ export default function HeroSection() {
               asChild 
               variant="outline" 
               size="xl"
-              className="bg-white/10 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm min-w-[200px] hover:scale-[1.02] transition-transform duration-200"
+              className="bg-white/10 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm min-w-[220px] w-full sm:w-auto hover:scale-[1.02] transition-transform duration-200 shadow-xl"
             >
               <Link href="/portfolio">
                 {t('hero.cta.portfolio', 'See Full Portfolio')}

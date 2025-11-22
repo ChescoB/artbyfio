@@ -146,11 +146,11 @@ export default function MuralsSlideshow({ intervalMs = 7000, className, images =
                 fill
                 priority={i === 0 || i === 1}
                 sizes="100vw"
-                className="object-contain object-center select-none"
+                className="object-cover object-center select-none"
                 style={{ objectPosition: 'center center' }}
               />
               <motion.div 
-                className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-black/20"
+                className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/30"
                 animate={{ opacity: isActive ? 1 : 0.3 }}
                 transition={{ duration: 1.8 }}
               />
