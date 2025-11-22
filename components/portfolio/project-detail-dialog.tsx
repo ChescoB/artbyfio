@@ -50,7 +50,7 @@ export default function ProjectDetailDialog({ isOpen, onClose, project }: Projec
             <div className="relative w-full bg-black/5">
               <div className="relative w-full" style={{ minHeight: '400px' }}>
                 <Image
-                  src={project?.imageUrl ?? ''}
+                  src={encodeURI(project?.imageUrl ?? '')}
                   alt={language === 'es' ? (project?.titleEs ?? project?.title ?? '') : (project?.title ?? '')}
                   width={1200}
                   height={1200}

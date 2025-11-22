@@ -220,7 +220,7 @@ export default function PortfolioGallery() {
                     {/* Image Container */}
                     <div className="relative aspect-[3/4] md:aspect-[4/5] overflow-hidden">
                       <Image
-                        src={artwork.imageUrl ?? ''}
+                        src={encodeURI(artwork.imageUrl ?? '')}
                         alt={language === 'es' ? (artwork.titleEs ?? artwork.title) : artwork.title}
                         fill
                         className={`
