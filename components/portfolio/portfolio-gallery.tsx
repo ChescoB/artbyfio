@@ -199,6 +199,7 @@ export default function PortfolioGallery() {
 
           {/* Masonry Gallery Grid */}
           <motion.div 
+            key={activeFilter}
             variants={containerVariants}
             initial="hidden"
             animate="visible"
@@ -206,7 +207,7 @@ export default function PortfolioGallery() {
           >
               {filteredArtworks.map((artwork, index) => (
                 <motion.div
-                  key={artwork.id}
+                  key={`${activeFilter}-${artwork.id}`}
                   variants={cardVariants}
                   whileHover={{ y: -4 }}
                   transition={{ duration: 0.3 }}
