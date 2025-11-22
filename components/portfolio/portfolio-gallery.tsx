@@ -88,8 +88,8 @@ export default function PortfolioGallery() {
 
   return (
     <>
-      <section className="py-12 sm:py-16 md:py-20" ref={ref}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-16 md:py-20 lg:py-24" ref={ref}>
+        <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
           
           {/* Modern Tabbed Filter */}
           <motion.div
@@ -103,7 +103,7 @@ export default function PortfolioGallery() {
               {/* Decorative gradient line */}
               <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
               
-              <div className="flex flex-wrap justify-center gap-1 sm:gap-2 relative">
+              <div className="flex flex-wrap justify-center gap-2 md:gap-3 relative">
                 {(Object.keys(categoryLabels) as FilterCategory[]).map((category) => {
                   const IconComponent = 
                     category === 'all' ? Sparkles :
@@ -124,8 +124,8 @@ export default function PortfolioGallery() {
                       key={category}
                       onClick={() => setActiveFilter(category)}
                       className={`
-                        relative px-4 sm:px-6 py-3 sm:py-4 rounded-t-xl
-                        transition-all duration-300 group
+                        relative px-5 md:px-6 py-3.5 md:py-4 rounded-t-xl
+                        transition-all duration-300 group touch-manipulation
                         ${isActive 
                           ? 'bg-gradient-to-br from-primary/10 via-secondary/10 to-[hsl(var(--art-teal))]/10 shadow-lg' 
                           : 'hover:bg-accent/50'
@@ -153,23 +153,23 @@ export default function PortfolioGallery() {
                       )}
                       
                       <span className={`
-                        flex items-center gap-2 text-sm sm:text-base font-medium transition-all duration-300
+                        flex items-center gap-2 text-sm md:text-base font-medium transition-all duration-300
                         ${isActive 
                           ? 'text-primary font-semibold' 
                           : 'text-foreground/80 group-hover:text-foreground'
                         }
                       `}>
                         <IconComponent className={`
-                          w-4 h-4 transition-all duration-300
+                          w-4 h-4 md:w-5 md:h-5 transition-all duration-300
                           ${isActive ? 'scale-110 text-primary' : 'group-hover:scale-105'}
                         `} />
-                        <span className="hidden sm:inline">
+                        <span className="hidden md:inline">
                           {language === 'es' 
                             ? categoryLabels[category].es 
                             : categoryLabels[category].en
                           }
                         </span>
-                        <span className="sm:hidden">
+                        <span className="md:hidden">
                           {(language === 'es' 
                             ? categoryLabels[category].es 
                             : categoryLabels[category].en
@@ -203,7 +203,7 @@ export default function PortfolioGallery() {
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"
+            className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 md:gap-8"
           >
               {filteredArtworks.map((artwork, index) => (
                 <motion.div
@@ -218,7 +218,7 @@ export default function PortfolioGallery() {
                 >
                   <div className="relative overflow-hidden rounded-xl shadow-md hover:shadow-2xl transition-shadow duration-300 bg-card">
                     {/* Image Container */}
-                    <div className="relative aspect-[3/4] overflow-hidden">
+                    <div className="relative aspect-[3/4] md:aspect-[4/5] overflow-hidden">
                       <Image
                         src={artwork.imageUrl ?? ''}
                         alt={language === 'es' ? (artwork.titleEs ?? artwork.title) : artwork.title}
@@ -227,7 +227,7 @@ export default function PortfolioGallery() {
                           object-cover transition-all duration-500
                           ${hoveredId === artwork.id ? 'scale-105 brightness-75' : 'scale-100'}
                         `}
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        sizes="(max-width: 1024px) 100vw, (max-width: 1280px) 50vw, 33vw"
                         priority={index < 6}
                       />
                       
@@ -301,18 +301,18 @@ export default function PortfolioGallery() {
                     </div>
 
                     {/* Mobile Info (always visible on mobile) */}
-                    <div className="p-4 sm:hidden">
-                      <h3 className="text-base font-display font-bold mb-1">
+                    <div className="p-5 md:p-6 lg:hidden">
+                      <h3 className="text-lg font-display font-bold mb-2">
                         {language === 'es' ? (artwork.titleEs ?? artwork.title) : artwork.title}
                       </h3>
-                      <p className="text-muted-foreground text-sm line-clamp-2 mb-2">
+                      <p className="text-muted-foreground text-sm line-clamp-2 mb-3 leading-relaxed">
                         {language === 'es' 
                           ? (artwork.descriptionEs ?? artwork.description) 
                           : artwork.description
                         }
                       </p>
-                      <div className="flex items-center gap-2 text-muted-foreground text-xs">
-                        <span>{artwork.medium}</span>
+                      <div className="flex items-center gap-2 text-muted-foreground text-sm">
+                        <span className="font-medium">{artwork.medium}</span>
                         {artwork.year && (
                           <>
                             <span>•</span>
