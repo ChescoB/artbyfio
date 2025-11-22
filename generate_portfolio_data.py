@@ -138,6 +138,10 @@ def scan_portfolio_images():
     artworks = []
     
     for root, dirs, files in os.walk(PORTFOLIO_BASE):
+        # Skip PRESS AND SHOWS folder
+        if 'PRESS AND SHOWS' in root:
+            continue
+            
         for file in files:
             if file.lower().endswith(('.jpg', '.jpeg', '.png')):
                 # Get relative path from PORTAFOLIO folder
