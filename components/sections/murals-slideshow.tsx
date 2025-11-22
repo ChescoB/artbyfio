@@ -52,7 +52,7 @@ export default function MuralsSlideshow({ intervalMs = 7000, className, images =
       .then(data => {
         if (cancelled) return;
         const files: string[] = data?.files ?? [];
-        const arr: SlideshowImage[] = files.map(f => ({ src: encodeURI(`/images/Portfolio/Murals/${f}`) , alt: generateAltFromFilename(f) }));
+        const arr: SlideshowImage[] = files.map(f => ({ src: encodeURI(`/images/PORTAFOLIO/MURALS/${f}`) , alt: generateAltFromFilename(f) }));
         for (let i = arr.length - 1; i > 0; i--) {
           const j = Math.floor(Math.random() * (i + 1));
           [arr[i], arr[j]] = [arr[j], arr[i]];

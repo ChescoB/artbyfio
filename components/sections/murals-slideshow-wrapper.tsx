@@ -16,7 +16,7 @@ function generateAltFromFilename(name: string): string {
 }
 
 export default function MuralsSlideshowWrapper() {
-  const muralsDir = path.join(process.cwd(), 'public', 'images', 'Portfolio', 'Murals');
+  const muralsDir = path.join(process.cwd(), 'public', 'images', 'PORTAFOLIO', 'MURALS');
   let files: string[] = [];
   try {
     files = fs.readdirSync(muralsDir);
@@ -27,7 +27,7 @@ export default function MuralsSlideshowWrapper() {
 
   const allowed = files.filter(f => /\.(jpe?g|png|webp)$/i.test(f));
   const images: SlideshowImage[] = allowed.map(file => ({
-    src: `/images/Portfolio/Murals/${file}`,
+    src: `/images/PORTAFOLIO/MURALS/${file}`,
     alt: generateAltFromFilename(file)
   }));
 
