@@ -1,4 +1,4 @@
-
+// Portfolio Gallery Component
 'use client';
 
 import { useState, useMemo } from 'react';
@@ -260,12 +260,7 @@ export default function PortfolioGallery() {
                     <div className="relative aspect-[3/4] md:aspect-[4/5] overflow-hidden">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
-                        src={(() => {
-                          const url = artwork.imageUrl ?? '';
-                          const parts = url.split('/');
-                          const filename = parts.pop();
-                          return `${parts.join('/')}/${encodeURIComponent(filename!)}`;
-                        })()}
+                        src={artwork.imageUrl?.replace(/#/g, '%23') ?? ''}
                         alt={language === 'es' ? (artwork.titleEs ?? artwork.title) : artwork.title}
                         className={`
                           w-full h-full object-cover transition-all duration-500

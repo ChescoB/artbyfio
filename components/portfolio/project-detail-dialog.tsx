@@ -50,12 +50,7 @@ export default function ProjectDetailDialog({ isOpen, onClose, project }: Projec
               <div className="relative w-full" style={{ minHeight: '400px' }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={(() => {
-                    const url = project?.imageUrl ?? '';
-                    const parts = url.split('/');
-                    const filename = parts.pop();
-                    return `${parts.join('/')}/${encodeURIComponent(filename!)}`;
-                  })()}
+                  src={project?.imageUrl?.replace(/#/g, '%23') ?? ''}
                   alt={language === 'es' ? (project?.titleEs ?? project?.title ?? '') : (project?.title ?? '')}
                   className="w-full h-auto object-contain"
                   style={{ maxHeight: '70vh' }}

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Test</title>
+    <style>
+        body { background: #000; color: #fff; padding: 20px; }
+        img { max-width: 500px; margin: 20px 0; border: 2px solid; }
+        .success { border-color: green; }
+        .fail { border-color: red; }
+    </style>
+</head>
+<body>
+    <h1>Image Loading Test</h1>
+    
+    <h2>Test 1: Raw path with # (will fail)</h2>
+    <img src="/images/PORTAFOLIO/FREE MIND SERIES/Free Mind Series 2022 #2 Acrylic on Canvas.jpg" 
+         alt="Test 1" 
+         onload="this.className='success'; console.log('✅ Raw loaded')"
+         onerror="this.className='fail'; console.error('❌ Raw failed')">
+    
+    <h2>Test 2: Encoded # as %23 (should work)</h2>
+    <img src="/images/PORTAFOLIO/FREE MIND SERIES/Free Mind Series 2022 %232 Acrylic on Canvas.jpg" 
+         alt="Test 2"
+         onload="this.className='success'; console.log('✅ Encoded loaded')"
+         onerror="this.className='fail'; console.error('❌ Encoded failed')">
+    
+    <h2>Test 3: JavaScript replace method</h2>
+    <img id="test3" alt="Test 3"
+         onload="this.className='success'; console.log('✅ JS replace loaded')"
+         onerror="this.className='fail'; console.error('❌ JS replace failed')">
+    
+    <script>
+        const url = "/images/PORTAFOLIO/FREE MIND SERIES/Free Mind Series 2022 #2 Acrylic on Canvas.jpg";
+        const fixed = url.replace(/#/g, '%23');
+        console.log('Original:', url);
+        console.log('Fixed:', fixed);
+        document.getElementById('test3').src = fixed;
+    </script>
+    
+    <h2>Console Output</h2>
+    <p>Check browser console (F12) for detailed logs</p>
+</body>
+</html>
