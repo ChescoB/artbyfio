@@ -3,7 +3,6 @@
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useLanguage } from '@/lib/language-context';
 import { MessageCircle, Palette, X } from 'lucide-react';
@@ -49,15 +48,12 @@ export default function ProjectDetailDialog({ isOpen, onClose, project }: Projec
             {/* Full Image - No Cropping */}
             <div className="relative w-full bg-black/5">
               <div className="relative w-full" style={{ minHeight: '400px' }}>
-                <Image
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
                   src={project?.imageUrl ?? ''}
                   alt={language === 'es' ? (project?.titleEs ?? project?.title ?? '') : (project?.title ?? '')}
-                  width={1200}
-                  height={1200}
                   className="w-full h-auto object-contain"
                   style={{ maxHeight: '70vh' }}
-                  sizes="(max-width: 1280px) 100vw, 1200px"
-                  priority
                 />
               </div>
             </div>

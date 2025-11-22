@@ -4,7 +4,6 @@
 import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -259,16 +258,15 @@ export default function PortfolioGallery() {
                   <div className="relative overflow-hidden rounded-xl shadow-md hover:shadow-2xl transition-shadow duration-300 bg-card">
                     {/* Image Container */}
                     <div className="relative aspect-[3/4] md:aspect-[4/5] overflow-hidden">
-                      <Image
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
                         src={artwork.imageUrl ?? ''}
                         alt={language === 'es' ? (artwork.titleEs ?? artwork.title) : artwork.title}
-                        fill
                         className={`
-                          object-cover transition-all duration-500
+                          w-full h-full object-cover transition-all duration-500
                           ${hoveredId === artwork.id ? 'scale-105 brightness-75' : 'scale-100'}
                         `}
-                        sizes="(max-width: 1024px) 100vw, (max-width: 1280px) 50vw, 33vw"
-                        priority={index < 6}
+                        loading={index < 6 ? 'eager' : 'lazy'}
                       />
                       
                       {/* Gradient Overlay */}
