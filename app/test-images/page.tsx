@@ -1,4 +1,4 @@
-'use client';
+it'use client';
 
 import { portfolioArtworks } from '@/lib/portfolio-data';
 import Image from 'next/image';
@@ -21,7 +21,7 @@ export default function TestImagesPage() {
               <p className="text-xs text-gray-500 mb-2">Next.js Image:</p>
               <div className="relative w-full h-64 bg-gray-800 rounded">
                 <Image
-                  src={artwork.imageUrl}
+                  src={encodeURI(artwork.imageUrl)}
                   alt={artwork.title}
                   fill
                   className="object-contain"
@@ -35,7 +35,7 @@ export default function TestImagesPage() {
               <p className="text-xs text-gray-500 mb-2">Regular img tag:</p>
               <div className="w-full h-64 bg-gray-800 rounded flex items-center justify-center">
                 <img
-                  src={artwork.imageUrl}
+                  src={encodeURI(artwork.imageUrl)}
                   alt={artwork.title}
                   className="max-w-full max-h-full object-contain"
                   onError={(e) => {

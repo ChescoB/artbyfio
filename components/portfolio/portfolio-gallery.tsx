@@ -34,7 +34,18 @@ export default function PortfolioGallery() {
     
     if (activeFilter === 'all') {
       filtered = [...portfolioArtworks];
+    } else if (activeFilter === 'acrylic') {
+      // Acrylic filter matches by medium, not category
+      filtered = portfolioArtworks.filter(art => 
+        art.medium?.toLowerCase().includes('acrylic')
+      );
+    } else if (activeFilter === 'oil') {
+      // Oil filter matches by medium, not category
+      filtered = portfolioArtworks.filter(art => 
+        art.medium?.toLowerCase().includes('oil')
+      );
     } else {
+      // Other filters match by category
       filtered = portfolioArtworks.filter(art => art.category === activeFilter);
     }
     
