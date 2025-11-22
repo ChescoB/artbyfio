@@ -9,12 +9,12 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useLanguage } from '@/lib/language-context';
-import { Eye, ArrowRight, Palette, Sparkles, Flower2, Brain, Mountain, ZoomIn, Paintbrush } from 'lucide-react';
+import { Eye, ArrowRight, Palette, Sparkles, Flower2, Brain, Mountain, ZoomIn, Paintbrush, Droplet, Droplets } from 'lucide-react';
 import { MuralProjectWithTranslation } from '@/lib/types';
 import { portfolioArtworks, categoryLabels } from '@/lib/portfolio-data';
 import ProjectDetailDialog from './project-detail-dialog';
 
-type FilterCategory = 'all' | 'canvas' | 'murals' | 'budhaood' | 'freemind' | 'landscapes' | 'details';
+type FilterCategory = 'all' | 'canvas' | 'murals' | 'buddha' | 'freemind' | 'landscapes' | 'details' | 'oil' | 'acrylic' | 'commissioned';
 
 export default function PortfolioGallery() {
   const { t, language } = useLanguage();
@@ -35,33 +35,7 @@ export default function PortfolioGallery() {
     if (activeFilter === 'all') {
       filtered = [...portfolioArtworks];
     } else {
-      filtered = portfolioArtworks.filter(art => {
-      if (activeFilter === 'murals') {
-        return art.category === 'Murals' || art.imageUrl.includes('/images/Murals/');
-      }
-      // For series filters, check image path and content
-      if (activeFilter === 'budhaood') {
-        return art.imageUrl.includes('/budhaood-series/') || 
-               art.title.toLowerCase().includes('buddha') ||
-               art.titleEs?.toLowerCase().includes('buda');
-      }
-      if (activeFilter === 'freemind') {
-        return art.imageUrl.includes('/free-mind-series/') ||
-               art.title.includes('Free Mind') ||
-               art.description.includes('Free Mind');
-      }
-      if (activeFilter === 'landscapes') {
-        return art.imageUrl.includes('/future-landscapes/');
-      }
-      if (activeFilter === 'details') {
-        return art.imageUrl.includes('/details/') || art.category === 'Details';
-      }
-      if (activeFilter === 'canvas') {
-        return art.imageUrl.includes('/canvas-works/') || art.category === 'Canvas';
-      }
-      
-      return false;
-      });
+      filtered = portfolioArtworks.filter(art => art.category === activeFilter);
     }
     
     // Shuffle for 'all' and 'canvas' categories
@@ -135,10 +109,13 @@ export default function PortfolioGallery() {
                     category === 'all' ? Sparkles :
                     category === 'canvas' ? Palette :
                     category === 'murals' ? Paintbrush :
-                    category === 'budhaood' ? Flower2 :
+                    category === 'buddha' ? Flower2 :
                     category === 'freemind' ? Brain :
                     category === 'landscapes' ? Mountain :
-                    category === 'details' ? ZoomIn : Sparkles;
+                    category === 'details' ? ZoomIn :
+                    category === 'oil' ? Droplet :
+                    category === 'acrylic' ? Droplets :
+                    category === 'commissioned' ? Palette : Sparkles;
                   
                   const isActive = activeFilter === category;
                   
@@ -274,8 +251,11 @@ export default function PortfolioGallery() {
 
                       {/* Category Badge */}
                       <div className="absolute top-3 left-3 z-10">
-                        <Badge variant="secondary" className="backdrop-blur-sm bg-background/80">
-                          {artwork.category}
+                        <Badge variant="secondary" className="backdrop-blur-sm bg-background/80 capitalize">
+                          {language === 'es' 
+                            ? categoryLabels[artwork.category as FilterCategory]?.es || artwork.category
+                            : categoryLabels[artwork.category as FilterCategory]?.en || artwork.category
+                          }
                         </Badge>
                       </div>
 
