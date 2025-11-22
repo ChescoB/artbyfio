@@ -91,31 +91,21 @@ export default function PortfolioGallery() {
       <section className="py-16 md:py-20 lg:py-24" ref={ref}>
         <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
           
-          {/* Modern Tabbed Filter */}
+          {/* Modern Grouped Filter Navigation */}
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             className="mb-12"
           >
-            {/* Tab Navigation */}
-            <div className="relative">
-              {/* Decorative gradient line */}
-              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
-              
-              <div className="flex flex-wrap justify-center gap-2 md:gap-3 relative">
-                {(Object.keys(categoryLabels) as FilterCategory[]).map((category) => {
+            <div className="space-y-6">
+              {/* Main Categories Row */}
+              <div className="flex flex-wrap justify-center gap-2 md:gap-3">
+                {(['all', 'canvas', 'murals'] as FilterCategory[]).map((category) => {
                   const IconComponent = 
                     category === 'all' ? Sparkles :
                     category === 'canvas' ? Palette :
-                    category === 'murals' ? Paintbrush :
-                    category === 'buddha' ? Flower2 :
-                    category === 'freemind' ? Brain :
-                    category === 'landscapes' ? Mountain :
-                    category === 'details' ? ZoomIn :
-                    category === 'oil' ? Droplet :
-                    category === 'acrylic' ? Droplets :
-                    category === 'commissioned' ? Palette : Sparkles;
+                    Paintbrush;
                   
                   const isActive = activeFilter === category;
                   
@@ -124,56 +114,95 @@ export default function PortfolioGallery() {
                       key={category}
                       onClick={() => setActiveFilter(category)}
                       className={`
-                        relative px-5 md:px-6 py-3.5 md:py-4 rounded-t-xl
+                        relative px-6 md:px-8 py-3.5 md:py-4 rounded-xl
                         transition-all duration-300 group touch-manipulation
                         ${isActive 
-                          ? 'bg-gradient-to-br from-primary/10 via-secondary/10 to-[hsl(var(--art-teal))]/10 shadow-lg' 
-                          : 'hover:bg-accent/50'
+                          ? 'bg-gradient-to-br from-primary/20 via-secondary/20 to-[hsl(var(--art-teal))]/20 shadow-xl border-2 border-primary/30' 
+                          : 'bg-card hover:bg-accent/50 border-2 border-transparent'
                         }
                       `}
-                      whileHover={{ y: -2 }}
+                      whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.98 }}
                     >
-                      {/* Active indicator bar */}
                       {isActive && (
                         <motion.div
-                          layoutId="activeTab"
-                          className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-secondary to-[hsl(var(--art-teal))] rounded-t-sm"
+                          layoutId="activePrimary"
+                          className="absolute inset-0 bg-gradient-to-r from-primary/10 via-secondary/10 to-[hsl(var(--art-teal))]/10 rounded-xl"
                           transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                         />
                       )}
                       
-                      {/* Glow effect on active */}
+                      <span className={`
+                        flex items-center gap-2 text-base md:text-lg font-semibold transition-all duration-300 relative z-10
+                        ${isActive ? 'text-primary' : 'text-foreground/80 group-hover:text-foreground'}
+                      `}>
+                        <IconComponent className={`w-5 h-5 md:w-6 md:h-6 ${isActive ? 'scale-110' : ''}`} />
+                        {language === 'es' ? categoryLabels[category].es : categoryLabels[category].en}
+                      </span>
+                    </motion.button>
+                  );
+                })}
+              </div>
+
+              {/* Decorative Divider */}
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-border/40"></div>
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                  <span className="bg-background px-4 text-muted-foreground">
+                    {language === 'es' ? 'Series & Estilos' : 'Series & Styles'}
+                  </span>
+                </div>
+              </div>
+
+              {/* Series & Techniques Row */}
+              <div className="flex flex-wrap justify-center gap-2 md:gap-3">
+                {(['buddha', 'freemind', 'landscapes', 'details', 'oil', 'acrylic', 'commissioned'] as FilterCategory[]).map((category) => {
+                  const IconComponent = 
+                    category === 'buddha' ? Flower2 :
+                    category === 'freemind' ? Brain :
+                    category === 'landscapes' ? Mountain :
+                    category === 'details' ? ZoomIn :
+                    category === 'oil' ? Droplet :
+                    category === 'acrylic' ? Droplets :
+                    Palette;
+                  
+                  const isActive = activeFilter === category;
+                  
+                  return (
+                    <motion.button
+                      key={category}
+                      onClick={() => setActiveFilter(category)}
+                      className={`
+                        relative px-4 md:px-5 py-2.5 md:py-3 rounded-lg
+                        transition-all duration-300 group touch-manipulation
+                        ${isActive 
+                          ? 'bg-gradient-to-br from-primary/10 via-secondary/10 to-[hsl(var(--art-teal))]/10 shadow-lg border border-primary/30' 
+                          : 'bg-card/50 hover:bg-accent/50 border border-transparent'
+                        }
+                      `}
+                      whileHover={{ scale: 1.05, y: -2 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
                       {isActive && (
                         <motion.div
-                          initial={{ opacity: 0, scale: 0.8 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          className="absolute inset-0 bg-gradient-to-r from-primary/5 via-secondary/5 to-[hsl(var(--art-teal))]/5 rounded-xl blur-xl -z-10"
+                          layoutId="activeSecondary"
+                          className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-primary via-secondary to-[hsl(var(--art-teal))]"
+                          transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                         />
                       )}
                       
                       <span className={`
-                        flex items-center gap-2 text-sm md:text-base font-medium transition-all duration-300
-                        ${isActive 
-                          ? 'text-primary font-semibold' 
-                          : 'text-foreground/80 group-hover:text-foreground'
-                        }
+                        flex items-center gap-1.5 text-sm md:text-base font-medium transition-all duration-300
+                        ${isActive ? 'text-primary font-semibold' : 'text-foreground/70 group-hover:text-foreground'}
                       `}>
-                        <IconComponent className={`
-                          w-4 h-4 md:w-5 md:h-5 transition-all duration-300
-                          ${isActive ? 'scale-110 text-primary' : 'group-hover:scale-105'}
-                        `} />
-                        <span className="hidden md:inline">
-                          {language === 'es' 
-                            ? categoryLabels[category].es 
-                            : categoryLabels[category].en
-                          }
+                        <IconComponent className={`w-4 h-4 ${isActive ? 'scale-110' : ''}`} />
+                        <span className="hidden sm:inline">
+                          {language === 'es' ? categoryLabels[category].es : categoryLabels[category].en}
                         </span>
-                        <span className="md:hidden">
-                          {(language === 'es' 
-                            ? categoryLabels[category].es 
-                            : categoryLabels[category].en
-                          ).split(' ')[0]}
+                        <span className="sm:hidden">
+                          {(language === 'es' ? categoryLabels[category].es : categoryLabels[category].en).split(' ')[0]}
                         </span>
                       </span>
                     </motion.button>
