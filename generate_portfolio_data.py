@@ -146,8 +146,8 @@ def scan_portfolio_images():
             if file.lower().endswith(('.jpg', '.jpeg', '.png')):
                 # Get relative path from PORTAFOLIO folder
                 rel_path = os.path.relpath(os.path.join(root, file), PORTFOLIO_BASE)
-                # Convert to web path (lowercase 'images' for Next.js public folder)
-                image_url = f"/images/PORTAFOLIO/{rel_path.replace(os.sep, '/')}"
+                # Convert to web path (keep IMAGES uppercase to match actual folder)
+                image_url = f"/IMAGES/PORTAFOLIO/{rel_path.replace(os.sep, '/')}"
                 
                 # Extract information
                 title = clean_title(file)
