@@ -1,4 +1,5 @@
 'use strict';
+addDaily=function(type,amount){var d=ensureDaily();if(META.daily.claimed||d.type!==type)return;META.daily.progress=Math.min(d.goal,META.daily.progress+(amount||1));if(META.daily.progress>=d.goal){META.daily.claimed=true;META.credits+=d.reward;queueReward('DAILY CONTRACT COMPLETE',d.reward);SpaceAudio.achievement();haptic([18,30,45])}saveMeta();if(STATE.mode!=='playing')refreshMetaUI()};
 function bindButton(id,fn){var node=byId(id),locked=false;node.addEventListener('pointerup',function(e){e.preventDefault();if(locked)return;locked=true;SpaceAudio.init(META.settings);SpaceAudio.resume();fn();setTimeout(function(){locked=false},220)});node.addEventListener('click',function(e){e.preventDefault()})}
 function openMenu(){STATE.mode='menu';showGameUi(false);showScreen(UI.menu);refreshMetaUI();SpaceAudio.ui()}
 function openHangar(){showScreen(UI.hangar);renderSkins();SpaceAudio.ui()}
