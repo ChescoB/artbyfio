@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+  <meta name="theme-color" content="#070918">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Neon Orbit">
+  <link rel="stylesheet" href="https://raw.githack.com/ChescoB/artbyfio/6a3179e95017ec6f86b9ead6821abd78290a4988/neon-orbit/style.css">
+  <style>html,body{color:#f8f9ff!important;background:#050714!important}button{touch-action:manipulation}.panel{color:#f8f9ff!important}</style>
+  <title>Neon Orbit: Ascension</title>
+</head>
+<body>
+  <canvas id="game" aria-label="Neon Orbit arcade game"></canvas>
+
+  <div id="hud" class="hud">
+    <div class="hudCluster">
+      <div class="hudCard scoreCard">
+        <span class="hudLabel">SCORE</span>
+        <strong id="score">0</strong>
+        <div class="energyTrack"><div id="energy" class="energyFill"></div></div>
+      </div>
+      <div class="hudCard compact"><span class="hudLabel">WAVE</span><strong id="wave">1</strong></div>
+      <div class="hudCard compact"><span class="hudLabel">LIVES</span><strong id="lives">●●●</strong></div>
+    </div>
+    <div id="comboHud" class="comboHud"><span id="multiplier">x1.0</span><small>FLOW</small></div>
+  </div>
+
+  <div id="runLevel" class="runLevel">
+    <span id="runLevelText">PULSE LV 1</span>
+    <div class="runXpTrack"><div id="runXpFill" class="runXpFill"></div></div>
+  </div>
+
+  <div id="bossBar" class="bossBar">
+    <div class="bossHeading"><span id="bossName">VOID SENTINEL</span><span id="bossPhase">PHASE I</span></div>
+    <div class="bossTrack"><div id="bossFill" class="bossFill"></div></div>
+  </div>
+
+  <button id="pause" class="iconButton pauseButton" aria-label="Pause game">Ⅱ</button>
+  <button id="nova" class="abilityButton novaButton" aria-label="Activate Nova Pulse">
+    <span class="abilityRing"><span id="novaFill" class="abilityFill"></span></span>
+    <b>⚡</b><small id="novaText">0%</small><em>NOVA</em>
+  </button>
+
+  <div id="contractHud" class="contractHud">
+    <span class="microLabel">RUN CONTRACT</span>
+    <strong id="contractText">Collect energy cores</strong>
+    <div class="contractTrack"><div id="contractFill" class="contractFill"></div></div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+  <div id="waveBanner" class="waveBanner"><span id="waveBannerTop">SECTOR CLEAR</span><strong id="waveBannerMain">WAVE 2</strong><small id="waveBannerSub">+250 CLEAR BONUS</small></div>
+  <div id="tutorialHint" class="tutorialHint hidden"></div>
+
+  <section id="menuScreen" class="screen">
+    <div class="panel heroPanel">
+      <div class="eyebrow">NEON ORBIT // COMPLETE EDITION</div>
+      <h1>ASCEND<br>THE VOID</h1>
+      <p class="lead">A one-thumb cosmic survival run with escalating bosses, reactive space audio, permanent unlocks, achievements, and endless build combinations.</p>
+
+      <div class="profileStrip">
+        <div class="profileLevel"><span>COMMANDER LEVEL</span><strong id="metaLevel">1</strong></div>
+        <div class="profileProgress"><div class="profileXpText"><span id="metaXpText">0 / 150 XP</span><span id="metaXpPercent">0%</span></div><div class="metaXpTrack"><div id="metaXpFill" class="metaXpFill"></div></div></div>
+      </div>
+
+      <div class="statGrid four">
+        <div class="statTile"><strong id="bestScore">0</strong><span>BEST SCORE</span></div>
+        <div class="statTile"><strong id="highestWave">1</strong><span>TOP WAVE</span></div>
+        <div class="statTile"><strong id="metaBosses">0</strong><span>BOSSES</span></div>
+        <div class="statTile credit"><strong id="credits">0</strong><span>CREDITS</span></div>
+      </div>
+
+      <div id="dailyCard" class="dailyCard">
+        <div class="dailyIcon">✦</div>
+        <div class="dailyCopy"><span>DAILY CONTRACT</span><strong id="dailyText">Loading contract…</strong><div class="dailyTrack"><div id="dailyFill" class="dailyFill"></div></div><small id="dailyProgress">0 / 1</small></div>
+        <div id="dailyReward" class="dailyReward">+75</div>
+      </div>
+
+      <button id="start" class="primaryButton">START ASCENSION</button>
+      <div class="buttonRow">
+        <button id="hangar" class="secondaryButton">HANGAR</button>
+        <button id="achievements" class="secondaryButton">ACHIEVEMENTS</button>
+        <button id="settings" class="secondaryButton iconOnly" aria-label="Settings">⚙</button>
+      </div>
+      <small class="footerCopy">Drag anywhere to steer. Charge Nova through skillful play.</small>
+    </div>
+  </section>
+
+  <section id="hangarScreen" class="screen hidden">
+    <div class="panel scrollPanel">
+      <div class="eyebrow">PERMANENT COLLECTION</div>
+      <h2>Pulse Hangar</h2>
+      <p>Unlock pulse cores with Star Credits. Every core includes a matching trail, impact glow, and Nova color.</p>
+      <div class="wallet"><span>AVAILABLE CREDITS</span><strong id="hangarCredits">0</strong></div>
+      <div id="skinGrid" class="skinGrid"></div>
+      <button id="hangarBack" class="secondaryButton full">BACK</button>
+    </div>
+  </section>
+
+  <section id="achievementsScreen" class="screen hidden">
+    <div class="panel scrollPanel">
+      <div class="eyebrow">MILESTONES</div>
+      <h2>Achievements</h2>
+      <p>Milestones unlock automatically and award permanent Star Credits.</p>
+      <div id="achievementList" class="achievementList"></div>
+      <button id="achievementsBack" class="secondaryButton full">BACK</button>
+    </div>
+  </section>
+
+  <section id="settingsScreen" class="screen hidden">
+    <div class="panel settingsPanel">
+      <div class="eyebrow">SYSTEMS</div>
+      <h2>Settings</h2>
+      <div class="settingRow"><div><strong>SPACE MUSIC</strong><small>Reactive ambient soundtrack</small></div><button id="musicToggle" class="toggle" aria-label="Toggle music"><span></span></button></div>
+      <div class="settingRow"><div><strong>SOUND EFFECTS</strong><small>Collects, impacts, bosses, rewards</small></div><button id="sfxToggle" class="toggle" aria-label="Toggle sound effects"><span></span></button></div>
+      <div class="settingRow"><div><strong>HAPTICS</strong><small>Vibration feedback where supported</small></div><button id="hapticsToggle" class="toggle" aria-label="Toggle haptics"><span></span></button></div>
+      <div class="settingRow"><div><strong>REDUCED FLASH</strong><small>Lower full-screen light effects</small></div><button id="flashToggle" class="toggle" aria-label="Toggle reduced flash"><span></span></button></div>
+      <button id="settingsBack" class="secondaryButton full">BACK</button>
+    </div>
+  </section>
+
+  <section id="pauseScreen" class="screen hidden">
+    <div class="panel smallPanel">
+      <div class="eyebrow">ORBIT SUSPENDED</div>
+      <h2>Paused</h2>
+      <p>Your current run is frozen.</p>
+      <button id="resume" class="primaryButton">RESUME</button>
+      <button id="restartPause" class="secondaryButton full">RESTART RUN</button>
+      <button id="quit" class="ghostButton">END RUN</button>
+    </div>
+  </section>
+
+  <section id="upgradeScreen" class="screen hidden">
+    <div class="panel upgradePanel">
+      <div class="eyebrow" id="upgradeEyebrow">PULSE LEVEL UP</div>
+      <h2 id="upgradeTitle">Choose an Upgrade</h2>
+      <p id="upgradeSubtitle">Build a stronger pulse for this run.</p>
+      <div id="upgradeList" class="upgradeList"></div>
+    </div>
+  </section>
+
+  <section id="rewardScreen" class="screen hidden">
+    <div class="panel rewardPanel">
+      <div class="rewardBurst">✦</div>
+      <div class="eyebrow">SENTINEL DESTROYED</div>
+      <h2>Cosmic Cache</h2>
+      <p>Choose one empowered relic. Boss relics are stronger than normal upgrades.</p>
+      <div id="rewardList" class="upgradeList"></div>
+    </div>
+  </section>
+
+  <section id="gameOverScreen" class="screen hidden">
+    <div class="panel gameOverPanel">
+      <div id="resultEyebrow" class="eyebrow">RUN COMPLETE</div>
+      <div id="finalScore" class="finalScore">0</div>
+      <span class="finalLabel">FINAL SCORE</span>
+      <div class="statGrid four gameStats">
+        <div class="statTile"><strong id="finalWave">1</strong><span>WAVE</span></div>
+        <div class="statTile"><strong id="finalBosses">0</strong><span>BOSSES</span></div>
+        <div class="statTile"><strong id="finalCombo">0</strong><span>BEST FLOW</span></div>
+        <div class="statTile credit"><strong id="finalCredits">+0</strong><span>CREDITS</span></div>
+      </div>
+      <div class="xpReward"><div><span>COMMANDER XP</span><strong id="xpGain">+0 XP</strong></div><div class="metaXpTrack"><div id="endXpFill" class="metaXpFill"></div></div><small id="endLevelText">Level 1</small></div>
+      <p id="runSummary">Every run strengthens the next.</p>
+      <button id="again" class="primaryButton">RUN IT BACK</button>
+      <div class="buttonRow"><button id="gameOverHangar" class="secondaryButton">HANGAR</button><button id="gameOverMenu" class="secondaryButton">MAIN MENU</button></div>
+    </div>
+  </section>
+
+  <script src="https://raw.githack.com/ChescoB/artbyfio/6a3179e95017ec6f86b9ead6821abd78290a4988/neon-orbit/audio.js"></script>
+  <script src="https://raw.githack.com/ChescoB/artbyfio/6a3179e95017ec6f86b9ead6821abd78290a4988/neon-orbit/core.js"></script>
+  <script src="https://raw.githack.com/ChescoB/artbyfio/6a3179e95017ec6f86b9ead6821abd78290a4988/neon-orbit/play.js"></script>
+  <script src="https://raw.githack.com/ChescoB/artbyfio/6a3179e95017ec6f86b9ead6821abd78290a4988/neon-orbit/render.js"></script>
+  <script>
+'use strict';
+addDaily=function(type,amount){var d=ensureDaily();if(META.daily.claimed||d.type!==type)return;META.daily.progress=Math.min(d.goal,META.daily.progress+(amount||1));if(META.daily.progress>=d.goal){META.daily.claimed=true;META.credits+=d.reward;queueReward('DAILY CONTRACT COMPLETE',d.reward);SpaceAudio.achievement();haptic([18,30,45])}saveMeta();if(STATE.mode!=='playing')refreshMetaUI()};
+function bindButton(id,fn){var node=byId(id),locked=false,lastTouch=0;if(!node)return;function run(e){if(e&&e.cancelable)e.preventDefault();var now=Date.now();if(e&&e.type==='click'&&now-lastTouch<700)return;if(e&&e.type==='touchend')lastTouch=now;if(locked)return;locked=true;try{SpaceAudio.init(META.settings);SpaceAudio.resume();fn()}finally{setTimeout(function(){locked=false},220)}}node.addEventListener('touchend',run,{passive:false});node.addEventListener('click',run);node.addEventListener('pointerup',function(e){if(e.pointerType==='mouse'||e.pointerType==='pen')run(e)})}
+function openMenu(){STATE.mode='menu';showGameUi(false);showScreen(UI.menu);refreshMetaUI();SpaceAudio.ui()}
+function openHangar(){showScreen(UI.hangar);renderSkins();SpaceAudio.ui()}
+function openAchievements(){showScreen(UI.achievements);renderAchievements();SpaceAudio.ui()}
+function openSettings(){showScreen(UI.settings);refreshSettings();SpaceAudio.ui()}
+function toggleSetting(key){META.settings[key]=!META.settings[key];saveMeta();refreshSettings();SpaceAudio.ui()}
+function touchX(e){var p=e.touches&&e.touches[0]?e.touches[0]:e.changedTouches&&e.changedTouches[0]?e.changedTouches[0]:e;return Math.max(18,Math.min(STATE.w-18,p.clientX))}
+canvas.addEventListener('touchstart',function(e){if(STATE.mode!=='playing')return;STATE.drag=true;PLAYER.targetX=touchX(e);e.preventDefault()},{passive:false});
+canvas.addEventListener('touchmove',function(e){if(STATE.mode!=='playing'||!STATE.drag)return;PLAYER.targetX=touchX(e);e.preventDefault()},{passive:false});
+canvas.addEventListener('touchend',function(e){STATE.drag=false;e.preventDefault()},{passive:false});
+canvas.addEventListener('pointerdown',function(e){if(STATE.mode!=='playing')return;STATE.drag=true;PLAYER.targetX=pointerX(e);canvas.setPointerCapture&&canvas.setPointerCapture(e.pointerId);e.preventDefault()},{passive:false});
+canvas.addEventListener('pointermove',function(e){if(STATE.mode!=='playing'||!STATE.drag)return;PLAYER.targetX=pointerX(e);e.preventDefault()},{passive:false});
+canvas.addEventListener('pointerup',function(e){STATE.drag=false;canvas.releasePointerCapture&&canvas.releasePointerCapture(e.pointerId);e.preventDefault()},{passive:false});
+canvas.addEventListener('pointercancel',function(){STATE.drag=false});
+window.addEventListener('keydown',function(e){if(STATE.mode==='playing'){if(e.key==='ArrowLeft'||e.key.toLowerCase()==='a')PLAYER.targetX=Math.max(18,PLAYER.targetX-55);if(e.key==='ArrowRight'||e.key.toLowerCase()==='d')PLAYER.targetX=Math.min(STATE.w-18,PLAYER.targetX+55);if(e.key===' '||e.key.toLowerCase()==='n')activateNova();if(e.key==='Escape')pauseRun()}else if(STATE.mode==='paused'&&e.key==='Escape')resumeRun()});
+bindButton('start',startRun);bindButton('again',startRun);bindButton('pause',pauseRun);bindButton('resume',resumeRun);bindButton('restartPause',startRun);bindButton('quit',quitRun);bindButton('nova',activateNova);bindButton('hangar',openHangar);bindButton('hangarBack',openMenu);bindButton('achievements',openAchievements);bindButton('achievementsBack',openMenu);bindButton('settings',openSettings);bindButton('settingsBack',openMenu);bindButton('gameOverHangar',openHangar);bindButton('gameOverMenu',openMenu);bindButton('musicToggle',function(){toggleSetting('music')});bindButton('sfxToggle',function(){toggleSetting('sfx')});bindButton('hapticsToggle',function(){toggleSetting('haptics')});bindButton('flashToggle',function(){toggleSetting('reducedFlash')});
+document.addEventListener('visibilitychange',function(){if(document.hidden&&STATE.mode==='playing')pauseRun()});window.addEventListener('resize',resizeGame,{passive:true});window.addEventListener('orientationchange',function(){setTimeout(resizeGame,120)},{passive:true});
+resizeGame();ensureDaily();checkAchievements();refreshMetaUI();showScreen(UI.menu);STATE.last=performance.now();requestAnimationFrame(animationLoop);
+  </script>
+</body>
+</html>
